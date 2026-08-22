@@ -1,0 +1,20 @@
+Stage 1: generating principles from 44 corrective records across 5 criteria...
+  -> 15 candidate principles
+Stage 2: deduplicating...
+  -> 11 after dedup
+Stage 3: reconstruction test over 203 records (44 corrective + 159 accepts)...
+  [drop] A9: corr=1.0 acc=0.304 cov=0.31  "Do not flag a specific numeric value (tolerance, time, mass,"
+  [drop] A9: corr=1.0 acc=0.3 cov=0.562  "Do not replace or reword a bound or directional constraint ("
+  [drop] A9: corr=1.0 acc=0.082 cov=0.739  "Do not substitute a defined functional reference or physical"
+  [drop] A2: corr=1.0 acc=0.047 cov=0.291  "Do not flag a numeric value as lacking traceability when it "
+  [drop] A5: corr=1.0 acc=0.0 cov=0.315  "Do not flag a requirement as underspecified under A5 when th"
+  [drop] A5: corr=1.0 acc=0.114 cov=0.266  "Do not replace an established internal reference (e.g., a na"
+  [drop] A5: corr=0.81 acc=0.283 cov=0.833  "Prefer the requirement that adds only the single missing mea"
+  [drop] A10: corr=0.333 acc=0.529 cov=0.266  "Do not flag 'shall be able to' when the expert's fix is simp"
+  [drop] A10: corr=1.0 acc=0.0 cov=0.128  "Do not flag assumption or context clauses (e.g., sentences b"
+  [drop] A10: corr=1.0 acc=0.013 cov=0.99  "Prefer the requirement that retains the original precise nor"
+  [drop] A4: corr=1.0 acc=0.218 cov=0.626  "Do not propose a replacement that introduces full technical "
+
+0 principles survived validation:
+
+Wrote rules_method_a.json and review_method_a.md

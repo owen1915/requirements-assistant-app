@@ -1,0 +1,80 @@
+MQ-99 BERSERKER UCAV -- CONTEXT BRIEF
+Prepared: 2026-04-13 | Source: IGNITE '26 Disruption Hackathon artifacts
+
+WHAT IT IS
+The MQ-99 Berserker is a fictional unmanned combat air system (UCAV) used as the
+anchor exemplar for the IGNITE '26 Disruption Hackathon (Mar 16-19, 2026). It is
+authored in Cameo / SysML v2 by Brad Philipbar and shared via DOD SAFE. Berserker
+provides a defensibly detailed, cyber-resilient air vehicle model against which
+digital engineering, test & evaluation, and assessment tooling are exercised.
+
+MODEL FAMILY
+Three distinct Berserker models are delivered as separate .mdzip files:
+  1. Berserker SFR (System Functional Requirements) -- 524 blocks, 233
+     requirements, 507 activities, 936 internal traceability links
+     (608 Allocate, 240 Trace, 73 Refine, 15 Satisfy).
+  2. Berserker Implementation Library.
+  3. Berserker Product Baseline.
+A key Conway's Law finding from IGNITE Day 1-2: zero block-name overlap across
+the three models, despite being the same conceptual system. This divergence is
+itself a research object (RQ-4: delta analysis across variants). A fourth model,
+"Berserker System Level Test Model" (1.17 MB), was delivered on Day 4.
+
+SYSTEM DECOMPOSITION (SFR top level: MQ-99 Berserker Air Vehicle)
+Seven subsystems:
+  - Fuel Management System (pumps, controller, sensors, tank)
+  - Communications System (controller, antennas, radio)
+  - Stores Management System (controller, munitions)
+  - Electrical System (generators, controller, BMS, batteries)
+  - Propulsion/Flight System (engine controller, flight controls, engine,
+    air data sensors)
+  - Navigation System (controller, nav sensors, INS/gyros)
+  - Executive Control Subsystem (Mission Controller, Cyber Sentinel,
+    Network Switch, 1553 Bus)
+Four external systems: Ground Control Station, Lead Manned Aircraft,
+GPS Constellation, Air Traffic Control.
+
+REQUIREMENT FAMILIES (233 total in SFR)
+  - Mission / Operational: max speed, max altitude, flight time, recovery rate,
+    time to deploy, time to launch, arid deployment, weapons on target,
+    aircraft survivability, attrition, target lethality.
+  - Mission Computer Direction: per-subsystem direction requirements (fuel,
+    electrical, propulsion, navigation, comms, stores, autopilot, EO/IR,
+    ELINT, parachute).
+  - Sensor / Payload: EO/IR accuracy, false classification rate, frame
+    transfer rate, video latency, dropped frames/packets, effective IR
+    resolution distance.
+  - Cyber (CSA-01..CSA-10 + sub-items): access control, detectability
+    reduction, secure transmissions, information protection, partitioning,
+    attack-surface hardening, baseline & anomaly detection, performance &
+    cyberspace defense, capability recovery, active configuration management.
+  - Cyber Threat mitigations (HT-1..HT-54): prevent/detect/report/mitigate
+    unauthorized data, programs, exfiltration, connections, assets, physical
+    access, resource access, and insider threats; resilience properties and
+    restoration.
+  - Cyber Hygiene / Assurance: secure boot, cryptographic modules, maintenance
+    ports, digital signatures on OFPs, military GPS only, data-at-rest
+    encryption, SBOM, HBOM, ground-station MFA and RBAC, zeroize.
+  - Backup / Resilience: per-subsystem backup modes and backup-mode switching;
+    Cyber Sentinel roles (1553 bus controller, ML/pattern-based detection,
+    autonomous switching, logging, reporting, blocking, formal-methods design).
+
+ROLE IN IGNITE '26
+Berserker is the concrete reference system used across the IGNITE arcs:
+Arc 0 (DE Ecosystem), Arc 1 (DTE&A), Arc 2 (Conway's Law), Arc 3 (4D
+Assessment), Arc 4 (Geospatial COP). Day 3 produced a "Failure to Know
+Position" narrative anchored on Berserker's GPS failure mode propagating
+across four use cases. The Berserker assessment ontology (BFO-aligned,
+20+ classes) plus Wymorian subsystem models feed SPARQL competency queries
+(e.g., "Kill Chain Coverage," "MOP Trade-Space," "Requirements to Tests"),
+a morphism-quality heatmap, and the Streamlit dashboard demo.
+
+KEY ARTIFACTS
+  - docs/Cameo Models/SysMLv2/MQ99_Berserker_Requirements.sysml (268 reqs,
+    SysML v2 source)
+  - src/data/berserker_model.json (233 reqs, structured extraction -- source
+    of this requirements dump)
+  - docs/Berserker_Full_Extraction_2026-03-18.xlsx (8 sheets)
+  - docs/Berserker_Deep_Extraction_2026-03-18.xlsx (5 sheets, deep XMI)
+  - src/ontology/berserker-assessment.ttl, berserker-abox.ttl
+  - UAOS_DashboardPrototype .../Berserker_dTEMP_v4 OML project

@@ -1,0 +1,26 @@
+Generating candidates from 36 corrective records across 5 criteria...
+  -> 13 candidates
+  -> 12 after dedup
+Scoring each over 163 records (36 corrective + 127 accepts)...
+  A9   corr=1.0 acc=0.545 cov=0.356  "Do not flag specific numeric values (tolerances, time l"
+  A9   corr=1.0 acc=0.205 cov=0.331  "Do not propose replacing concrete numeric values with p"
+    ! batch 4 attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+  A9   corr=0.818 acc=0.627 cov=0.975  "Do not propose replacing technical specifications with "
+  A2   corr=1.0 acc=0.139 cov=0.282  "Do not replace references to other functional requireme"
+  A2   corr=0.6 acc=0.042 cov=0.209  "Do not propose changes that assume a less stringent ope"
+  A5   corr=0.9 acc=0.118 cov=0.27  "Do not expand references to other requirements (e.g., F"
+  A5   corr=1.0 acc=0.0 cov=0.055  "Do not add operational state qualifiers (e.g., 'during "
+  A5   corr=0.528 acc=0.449 cov=1.0  "Do not expand vague or incomplete requirements with spe"
+  A4   corr=1.0 acc=0.088 cov=0.27  "Do not flag references to other requirements when the r"
+  A4   corr=0.75 acc=0.43 cov=0.583  "Prefer maintaining requirement references over expandin"
+  A10  corr=1.0 acc=0.5 cov=0.172  "Do not flag 'able to' when the expert's concern is abou"
+  A10  corr=1.0 acc=0.282 cov=0.252  "Do not propose removing 'able to' when the actual defec"
+
+======================================================================
+lenient   corr>=0.5 acc>=0.4 cov>=0.05 -> 5 rules
+default   corr>=0.6 acc>=0.5 cov>=0.1 -> 3 rules
+moderate  corr>=0.7 acc>=0.55 cov>=0.15 -> 1 rules
+strict    corr>=0.8 acc>=0.6 cov>=0.2 -> 1 rules
+======================================================================
+
+Wrote outputs/threshold_sensitivity.md and .json

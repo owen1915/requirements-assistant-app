@@ -4,8 +4,8 @@
     {
       "label": "1. Setup — Install Python packages",
       "type": "shell",
-      "command": "pip install -r requirements.txt",
-      "options": { "cwd": "${workspaceFolder}/backend" },
+      "command": "pip install -e .[app]",
+      "options": { "cwd": "${workspaceFolder}" },
       "presentation": {
         "echo": true,
         "reveal": "always",
@@ -18,7 +18,7 @@
       "label": "2. Setup — Install Node packages",
       "type": "shell",
       "command": "npm install",
-      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "options": { "cwd": "${workspaceFolder}/ui_prototype/frontend" },
       "presentation": {
         "echo": true,
         "reveal": "always",
@@ -40,7 +40,7 @@
       "label": "_backend",
       "type": "shell",
       "command": "python -m uvicorn main:app --host 0.0.0.0 --port 8000",
-      "options": { "cwd": "${workspaceFolder}/backend" },
+      "options": { "cwd": "${workspaceFolder}/ui_prototype/backend" },
       "isBackground": true,
       "presentation": {
         "echo": true,
@@ -64,7 +64,7 @@
       "label": "_frontend",
       "type": "shell",
       "command": "npm run dev",
-      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "options": { "cwd": "${workspaceFolder}/ui_prototype/frontend" },
       "isBackground": true,
       "presentation": {
         "echo": true,

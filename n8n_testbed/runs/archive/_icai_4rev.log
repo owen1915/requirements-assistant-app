@@ -1,0 +1,31 @@
+Stage 1: generating principles from 36 corrective records across 5 criteria...
+  -> 13 candidate principles
+Stage 2: deduplicating...
+  -> 9 after dedup
+Stage 3: reconstruction test over 163 records (36 corrective + 127 accepts)...
+  ! validation batch 2 attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+  ! validation batch 2 attempt 2 failed: Expecting value: line 1 column 1 (char 0)
+  ! validation batch 2 attempt 3 failed: Expecting value: line 1 column 1 (char 0)
+  ! validation batch 4 attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+  ! validation batch 4 attempt 2 failed: Expecting value: line 1 column 1 (char 0)
+  ! validation batch 4 attempt 3 failed: Expecting value: line 1 column 1 (char 0)
+  [KEEP] A9: net=9 (correct 40 - incorrect 31), rel=0.436  "Do not flag a specific numeric value (tolerance, time, "
+  [drop] A9: net=-8 (correct 46 - incorrect 54), rel=0.613  "Do not substitute a requirement's specific technical ph"
+  [drop] A2: net=-7 (correct 15 - incorrect 22), rel=0.227  "Do not flag a numeric value as lacking traceability whe"
+  [drop] A2: net=-4 (correct 26 - incorrect 30), rel=0.344  "Do not replace a defined functional reference label (e."
+  [drop] A2: net=-10 (correct 28 - incorrect 38), rel=0.405  "Do not replace an existing environmental or operational"
+  [drop] A5: net=-8 (correct 3 - incorrect 11), rel=0.086  "Do not flag a requirement as incomplete under A5 when t"
+  [drop] A5: net=-17 (correct 72 - incorrect 89), rel=0.988  "Do not substitute a verbose inline expansion for an est"
+  [drop] A4: net=-19 (correct 14 - incorrect 33), rel=0.288  "Do not flag a cross-reference term (e.g., 'FR1') as amb"
+  [KEEP] A10: net=11 (correct 36 - incorrect 25), rel=0.374  "Prefer removing 'be able to' in favour of direct impera"
+
+Constitution agreement test (163 SME decisions):
+  default annotator (no rules): 0.515
+  constitutional annotator:     0.393
+  agreement lift:               -0.122
+
+2 principles survived validation:
+  [A10 x2] Prefer removing 'be able to' in favour of direct imperative form ('shall
+  [A9 x15] Do not flag a specific numeric value (tolerance, time, mass, etc.) as un
+
+Wrote rules_method_a.json and review_method_a.md

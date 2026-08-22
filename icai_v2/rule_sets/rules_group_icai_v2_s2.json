@@ -1,0 +1,98 @@
+[
+  {
+    "criterion": "A9",
+    "criterion_name": "",
+    "rule_text": "Prefer: Requirements cite standards and specifications rather than restating numerical values inline.",
+    "method": "icai_v2",
+    "evidence": [],
+    "support_count": 3,
+    "direction": "",
+    "sub_rule_id": "",
+    "extra": {
+      "net": 15,
+      "relevance": 0.167,
+      "accuracy": 0.941,
+      "seeds_found": 3
+    }
+  },
+  {
+    "criterion": "A10",
+    "criterion_name": "",
+    "rule_text": "Prefer active voice 'shall move' over passive 'shall be able to move'.",
+    "method": "icai_v2",
+    "evidence": [],
+    "support_count": 6,
+    "direction": "",
+    "sub_rule_id": "",
+    "extra": {
+      "net": 14,
+      "relevance": 0.275,
+      "accuracy": 0.75,
+      "seeds_found": 3
+    }
+  },
+  {
+    "criterion": "A5",
+    "criterion_name": "",
+    "rule_text": "Prefer: Rewrite specifies concrete start/end points enabling objective verification and testing.",
+    "method": "icai_v2",
+    "evidence": [],
+    "support_count": 9,
+    "direction": "",
+    "sub_rule_id": "",
+    "extra": {
+      "net": 15,
+      "relevance": 0.304,
+      "accuracy": 0.742,
+      "seeds_found": 2
+    }
+  },
+  {
+    "criterion": "A10",
+    "criterion_name": "",
+    "rule_text": "Prefer active voice and direct phrasing: 'execute FR2 within' is clearer than wordy construction",
+    "method": "icai_v2",
+    "evidence": [],
+    "support_count": 6,
+    "direction": "",
+    "sub_rule_id": "",
+    "extra": {
+      "net": 14,
+      "relevance": 0.216,
+      "accuracy": 0.818,
+      "seeds_found": 2
+    }
+  },
+  {
+    "criterion": "A10",
+    "criterion_name": "",
+    "rule_text": "Do not flag requirements using 'no more than' as non-conforming language",
+    "method": "icai_v2",
+    "evidence": [],
+    "support_count": 8,
+    "direction": "",
+    "sub_rule_id": "",
+    "extra": {
+      "net": 9,
+      "relevance": 0.147,
+      "accuracy": 0.8,
+      "seeds_found": 2
+    }
+  },
+  {
+    "criterion": "A10",
+    "criterion_name": "",
+    "rule_text": "Do not flag modal verb changes that preserve requirement intent and clarity",
+    "method": "icai_v2",
+    "evidence": [],
+    "support_count": 2,
+    "direction": "",
+    "sub_rule_id": "",
+    "extra": {
+      "net": 5,
+      "relevance": 0.167,
+      "accuracy": 0.647,
+      "seeds_found": 2
+    }
+  }
+]

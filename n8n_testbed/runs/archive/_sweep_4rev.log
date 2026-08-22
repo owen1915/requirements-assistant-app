@@ -1,0 +1,24 @@
+Generating candidates from 36 corrective records across 5 criteria...
+  -> 13 candidates
+  -> 8 after dedup
+Scoring each over 163 records (36 corrective + 127 accepts)...
+  A9   corr=1.0 acc=0.163 cov=0.356  "Do not replace an existing explicit numeric value (tole"
+    ! batch 4 attempt 1 failed: Expecting value: line 1 column 1 (char 0)
+    ! batch 4 attempt 2 failed: Expecting value: line 1 column 1 (char 0)
+    ! batch 4 attempt 3 failed: Expecting value: line 1 column 1 (char 0)
+  A9   corr=1.0 acc=0.177 cov=0.798  "Do not substitute a descriptive paraphrase or inferred "
+  A2   corr=1.0 acc=0.364 cov=0.761  "Do not flag or rewrite an environmental, operational, o"
+  A2   corr=1.0 acc=0.25 cov=0.313  "Do not replace a defined functional reference label (e."
+  A5   corr=1.0 acc=0.0 cov=0.092  "Do not add operational state qualifiers (e.g., 'during "
+  A5   corr=1.0 acc=0.221 cov=0.957  "Do not substitute a verbose paraphrase or inferred desc"
+  A4   corr=1.0 acc=0.0 cov=0.276  "Do not flag a concise reference term (e.g., a named fun"
+  A10  corr=0.0 acc=0.727 cov=0.215  "Prefer 'shall [verb]' over 'shall be able to [verb]' wh"
+
+======================================================================
+lenient   corr>=0.5 acc>=0.4 cov>=0.05 -> 0 rules
+default   corr>=0.6 acc>=0.5 cov>=0.1 -> 0 rules
+moderate  corr>=0.7 acc>=0.55 cov>=0.15 -> 0 rules
+strict    corr>=0.8 acc>=0.6 cov>=0.2 -> 0 rules
+======================================================================
+
+Wrote outputs/threshold_sensitivity.md and .json

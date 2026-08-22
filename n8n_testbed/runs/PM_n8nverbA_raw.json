@@ -1,0 +1,2887 @@
+{
+  "dataset": "PM",
+  "config": "baseline",
+  "rubric": "n8n",
+  "model": "claude-sonnet-4-6",
+  "provider": "anthropic",
+  "prompt": "verbatim",
+  "temperature": 0.7,
+  "runs": 10,
+  "req_order": [
+    "FR.1",
+    "FR.2",
+    "PR.1",
+    "PR.2",
+    "PR.3",
+    "PR.4",
+    "PR.5",
+    "PR.6",
+    "PR.7",
+    "ER.1",
+    "ER.2",
+    "ER.3",
+    "RR.1"
+  ],
+  "totals": {
+    "a1_suppressed_true_flags": 0,
+    "a11_diverted_reqs": 0
+  },
+  "executions": [
+    {
+      "run": 1,
+      "raw": {
+        "FR.1": [
+          "A10",
+          "A5"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A4",
+          "A10"
+        ],
+        "PR.2": [
+          "A4",
+          "A10"
+        ],
+        "PR.3": [
+          "A10",
+          "A6"
+        ],
+        "PR.4": [
+          "A10"
+        ],
+        "PR.5": [
+          "A10"
+        ],
+        "PR.6": [
+          "A10"
+        ],
+        "PR.7": [
+          "A10",
+          "A4",
+          "A9"
+        ],
+        "ER.1": [
+          "A4",
+          "A4"
+        ],
+        "ER.2": [
+          "A1"
+        ],
+        "ER.3": [
+          "A1"
+        ],
+        "RR.1": [
+          "A6",
+          "A10",
+          "A9"
+        ]
+      },
+      "normalized": {
+        "FR.1": [
+          "A10",
+          "A5"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A4",
+          "A10"
+        ],
+        "PR.2": [
+          "A4",
+          "A10"
+        ],
+        "PR.3": [
+          "A10",
+          "A6"
+        ],
+        "PR.4": [
+          "A10"
+        ],
+        "PR.5": [
+          "A10"
+        ],
+        "PR.6": [
+          "A10"
+        ],
+        "PR.7": [
+          "A10",
+          "A4",
+          "A9"
+        ],
+        "ER.1": [
+          "A4",
+          "A4"
+        ],
+        "ER.2": [
+          "A1"
+        ],
+        "ER.3": [
+          "A1"
+        ],
+        "RR.1": [
+          "A6",
+          "A10",
+          "A9"
+        ]
+      },
+      "evaluations": {
+        "FR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3. Additionally, the note about the mechanical linkage being designed separately is implementation/design context that does not belong in the requirement body."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement does not specify the mass of the point mass being moved, which is an essential property needed to fully characterize the capability."
+          }
+        ],
+        "FR.2": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement does not specify the coordinates of the origin point or destination point explicitly, relying entirely on a reference to FR.1, which may not be sufficient for standalone completeness."
+          }
+        ],
+        "PR.1": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'FR.1' as the operation being constrained, but 'accuracy' is not clearly defined \u2014 it is unclear whether this refers to the final position accuracy, path accuracy, or repeatability."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall execute FR.1 with an accuracy' which is an unusual phrasing; 'execute FR.1' conflates a performance property with a functional reference rather than describing a system characteristic directly."
+          }
+        ],
+        "PR.2": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'FR.2' as the operation being constrained, but 'accuracy' is not clearly defined \u2014 it is unclear whether this refers to final position accuracy, path accuracy, or repeatability."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall execute FR.2 with an accuracy' which is an unusual phrasing; 'execute FR.2' conflates a performance property with a functional reference rather than describing a system characteristic directly."
+          }
+        ],
+        "PR.3": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3, and also uses 'no more than' which is explicitly disallowed by A10.3."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "PR.3 and PR.4 together define a time window for FR.1; however, PR.3 alone only expresses an upper bound and is technically singular. No additional violation beyond A10."
+          }
+        ],
+        "PR.4": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no less than', both of which are explicitly disallowed by A10.3."
+          }
+        ],
+        "PR.5": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no more than', both of which are explicitly disallowed by A10.3."
+          }
+        ],
+        "PR.6": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no less than', both of which are explicitly disallowed by A10.3."
+          }
+        ],
+        "PR.7": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "'Perpendicular to normal Earth gravity' is ambiguous \u2014 it could mean horizontally relative to Earth's surface, but the ISS operates in microgravity, making this phrase unclear in the operational context."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The ConOps states the system operates aboard the ISS, which is a microgravity environment; requiring movement 'perpendicular to normal Earth gravity (9.81 m/s\u00b2)' introduces a gravitational reference that is inconsistent with the ISS operational environment and may misrepresent the actual need."
+          }
+        ],
+        "ER.1": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "'Low humidity' is a qualitative descriptor without a measurable or quantifiable definition, violating A4.1."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "'Earth-like atmosphere' and 'approximately 21\u00b0C' use vague or approximate language; 'approximately' does not provide a precise, unambiguous bound for the temperature range."
+          }
+        ],
+        "ER.2": [
+          {
+            "criterion": "A1",
+            "name": "No Issues",
+            "explanation": "No issues found with this requirement."
+          }
+        ],
+        "ER.3": [
+          {
+            "criterion": "A1",
+            "name": "No Issues",
+            "explanation": "No issues found with this requirement."
+          }
+        ],
+        "RR.1": [
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement expresses both an energy consumption constraint (1.5 watt-hours) and an assumed operational duration (one minute) in a single statement, combining two distinct characteristics."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'no more than' which is explicitly disallowed by A10.3."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The 'maximum operational duration of one minute' assumption embedded in the requirement cannot be directly traced to the ConOps or problem statement, and its basis is not justified by any referenced source document."
+          }
+        ]
+      },
+      "diagnostics": {
+        "a1_suppressed_true_flags": 0,
+        "a11_diverted_reqs": 0
+      }
+    },
+    {
+      "run": 2,
+      "raw": {
+        "FR.1": [
+          "A10",
+          "A2",
+          "A6"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A10",
+          "A6",
+          "A9"
+        ],
+        "PR.2": [
+          "A10",
+          "A6",
+          "A9"
+        ],
+        "PR.3": [
+          "A10",
+          "A9"
+        ],
+        "PR.4": [
+          "A10",
+          "A9"
+        ],
+        "PR.5": [
+          "A10",
+          "A9"
+        ],
+        "PR.6": [
+          "A10",
+          "A9"
+        ],
+        "PR.7": [
+          "A10",
+          "A3",
+          "A4",
+          "A9"
+        ],
+        "ER.1": [
+          "A4",
+          "A4",
+          "A6",
+          "A9"
+        ],
+        "ER.2": [
+          "A10",
+          "A4"
+        ],
+        "ER.3": [
+          "A10",
+          "A2"
+        ],
+        "RR.1": [
+          "A10",
+          "A4",
+          "A9"
+        ]
+      },
+      "normalized": {
+        "FR.1": [
+          "A10",
+          "A2",
+          "A6"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A10",
+          "A6",
+          "A9"
+        ],
+        "PR.2": [
+          "A10",
+          "A6",
+          "A9"
+        ],
+        "PR.3": [
+          "A10",
+          "A9"
+        ],
+        "PR.4": [
+          "A10",
+          "A9"
+        ],
+        "PR.5": [
+          "A10",
+          "A9"
+        ],
+        "PR.6": [
+          "A10",
+          "A9"
+        ],
+        "PR.7": [
+          "A10",
+          "A3",
+          "A4",
+          "A9"
+        ],
+        "ER.1": [
+          "A4",
+          "A4",
+          "A6",
+          "A9"
+        ],
+        "ER.2": [
+          "A10",
+          "A4"
+        ],
+        "ER.3": [
+          "A10",
+          "A2"
+        ],
+        "RR.1": [
+          "A10",
+          "A4",
+          "A9"
+        ]
+      },
+      "evaluations": {
+        "FR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3. Additionally, the note about the mechanical linkage being designed separately is implementation/design context that does not belong in the body of the requirement statement."
+          },
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "The requirement specifies exact Cartesian coordinates for the origin and destination points, which imposes a specific design solution (a particular spatial geometry) rather than expressing the need in a solution-agnostic manner."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement conflates the capability to move the point mass with a note about the mechanical linkage design assumption, introducing a secondary characteristic within a single requirement statement."
+          }
+        ],
+        "FR.2": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement references 'the destination point' and 'the origin point' without defining or referencing where those coordinates are specified within this requirement, relying implicitly on FR.1 for context that should be self-contained or explicitly cross-referenced."
+          }
+        ],
+        "PR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement references 'FR.1' by name rather than describing the capability directly, and it does not follow the clean 'The system shall [imperative verb]...' pattern independently; it is structured as a performance modifier on another requirement rather than a standalone statement."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement simultaneously specifies accuracy in each of three Cartesian directions (X, Y, and Z), which could be considered three separate positional accuracy constraints bundled into one statement."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The specific value of \u00b12.5 mm (\u00b10.1 inches) is not traceable to the provided ConOps, problem statement, or any stated stakeholder need in the source documents."
+          }
+        ],
+        "PR.2": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement references 'FR.2' by name rather than describing the capability directly, and it does not follow the clean 'The system shall [imperative verb]...' pattern independently."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement simultaneously specifies accuracy in each of three Cartesian directions, which could be considered three separate positional accuracy constraints bundled into one statement."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The specific value of \u00b12.5 mm (\u00b10.1 inches) is not traceable to the provided ConOps, problem statement, or any stated stakeholder need in the source documents."
+          }
+        ],
+        "PR.3": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no more than', both of which violate A10.3."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The specific threshold of 30 seconds is not traceable to the provided ConOps, problem statement, or any stated stakeholder need in the source documents."
+          }
+        ],
+        "PR.4": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no less than', both of which violate A10.3."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The specific threshold of 5 seconds is not traceable to the provided ConOps, problem statement, or any stated stakeholder need in the source documents."
+          }
+        ],
+        "PR.5": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no more than', both of which violate A10.3."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The specific threshold of 30 seconds is not traceable to the provided ConOps, problem statement, or any stated stakeholder need in the source documents."
+          }
+        ],
+        "PR.6": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no less than', both of which violate A10.3."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The specific threshold of 5 seconds is not traceable to the provided ConOps, problem statement, or any stated stakeholder need in the source documents."
+          }
+        ],
+        "PR.7": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to', which violates A10.3."
+          },
+          {
+            "criterion": "A3",
+            "name": "Appropriate",
+            "explanation": "The requirement references 'normal Earth gravity (9.81 m/s\u00b2)' as a directional context, but the system operates aboard the ISS in microgravity; referencing Earth gravity as a directional constraint is inconsistent with the operational environment and conflates the test/lab environment with the operational environment."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The phrase 'perpendicular to normal Earth gravity' is ambiguous in the context of ISS operations where microgravity prevails; it is unclear whether this refers to the ground-test configuration, the ISS operational orientation, or a specific axis of the system."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The mass value of 3.6 kg is not traceable to the provided ConOps, problem statement, or any stated stakeholder need in the source documents."
+          }
+        ],
+        "ER.1": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The term 'low humidity' is qualitative and lacks a measurable or quantifiable definition, making it impossible to verify compliance objectively."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The term 'Earth-like atmosphere' is vague and subject to multiple interpretations without a precise definition provided in a glossary or elsewhere in the document."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement specifies three distinct environmental conditions simultaneously\u2014temperature, humidity, and pressure\u2014which are three separate constraints bundled into one statement."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The specific values of 21\u00b0C and 100 kPa are not explicitly traceable to the provided ConOps or problem statement, and the ISS cabin environment specifications are not cited as a source."
+          }
+        ],
+        "ER.2": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement is phrased as a negative statement ('shall not contribute'), which violates A10.2 requiring requirements to be expressed as positive statements."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The term 'particulates, such as dust' is not precisely defined with a measurable threshold (e.g., particle size, count, or mass concentration), making compliance verification ambiguous."
+          }
+        ],
+        "ER.3": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement is phrased as a negative statement ('shall enclose... to prevent'), which borders on a negative constraint; while 'shall enclose' is positive, the intent is expressed as prevention, and more critically it prescribes a specific design solution (enclosure) rather than stating the need."
+          },
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "The requirement prescribes a specific design solution (enclosing lubricated components) rather than expressing the underlying need in a solution-agnostic manner; the need is to prevent lubricant contamination of the ISS atmosphere."
+          }
+        ],
+        "RR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'no more than', which violates A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The phrase 'assuming a maximum operational duration of one minute' introduces a conditional assumption embedded in the requirement body that makes the constraint context-dependent and potentially ambiguous regarding whether this assumption is binding or illustrative."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The specific value of 1.5 watt-hours and the assumed operational duration of one minute are not traceable to the provided ConOps, problem statement, or any stated stakeholder need in the source documents."
+          }
+        ]
+      },
+      "diagnostics": {
+        "a1_suppressed_true_flags": 0,
+        "a11_diverted_reqs": 0
+      }
+    },
+    {
+      "run": 3,
+      "raw": {
+        "FR.1": [
+          "A10",
+          "A5"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A4",
+          "A10"
+        ],
+        "PR.2": [
+          "A4",
+          "A10"
+        ],
+        "PR.3": [
+          "A10",
+          "A4"
+        ],
+        "PR.4": [
+          "A10",
+          "A10",
+          "A4"
+        ],
+        "PR.5": [
+          "A10",
+          "A4"
+        ],
+        "PR.6": [
+          "A10",
+          "A4"
+        ],
+        "PR.7": [
+          "A10",
+          "A9",
+          "A2",
+          "A4"
+        ],
+        "ER.1": [
+          "A4",
+          "A6"
+        ],
+        "ER.2": [
+          "A4",
+          "A10"
+        ],
+        "ER.3": [
+          "A2",
+          "A10"
+        ],
+        "RR.1": [
+          "A10",
+          "A5",
+          "A6"
+        ]
+      },
+      "normalized": {
+        "FR.1": [
+          "A10",
+          "A5"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A4",
+          "A10"
+        ],
+        "PR.2": [
+          "A4",
+          "A10"
+        ],
+        "PR.3": [
+          "A10",
+          "A4"
+        ],
+        "PR.4": [
+          "A10",
+          "A10",
+          "A4"
+        ],
+        "PR.5": [
+          "A10",
+          "A4"
+        ],
+        "PR.6": [
+          "A10",
+          "A4"
+        ],
+        "PR.7": [
+          "A10",
+          "A9",
+          "A2",
+          "A4"
+        ],
+        "ER.1": [
+          "A4",
+          "A6"
+        ],
+        "ER.2": [
+          "A4",
+          "A10"
+        ],
+        "ER.3": [
+          "A2",
+          "A10"
+        ],
+        "RR.1": [
+          "A10",
+          "A5",
+          "A6"
+        ]
+      },
+      "evaluations": {
+        "FR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3. Additionally, the note about the mechanical linkage being designed separately is implementation/design context that does not belong in the requirement body."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement does not specify the mass of the point mass being moved, which is a key property needed to fully describe the capability."
+          }
+        ],
+        "FR.2": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement does not specify the coordinates of the destination point or origin point explicitly, relying entirely on references to FR.1, which may not be sufficient for standalone interpretation. Additionally, the mass of the point mass is not specified."
+          }
+        ],
+        "PR.1": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'FR.1' as the operation to be executed, but FR.1 itself uses 'shall be able to' phrasing, making it unclear whether PR.1 applies to the capability or to each individual execution. The phrase 'execute FR.1' is ambiguous as a measurable action."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement does not follow the standard 'The system shall [imperative verb]...' structure in a clean manner; referencing another requirement ID (FR.1) as the subject of execution is non-standard and can reduce traceability clarity."
+          }
+        ],
+        "PR.2": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "Similar to PR.1, referencing 'FR.2' as the operation to execute is ambiguous; it is unclear whether accuracy applies to the final position, the path, or each individual execution attempt."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "Referencing another requirement ID (FR.2) as the subject of execution is non-standard and does not follow the approved sentence structure pattern cleanly."
+          }
+        ],
+        "PR.3": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no more than', both of which violate A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "Referencing 'FR.1' as the operation to execute is ambiguous without defining what 'execute FR.1' means in terms of start and end conditions for timing measurement."
+          }
+        ],
+        "PR.4": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no less than', both of which violate A10.3."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "'No less than 5 seconds' is a double-boundary phrasing that violates A10.3's prohibition on 'no less than' constructions."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "It is unclear whether the minimum duration is a safety constraint, a deliberate pacing requirement, or a system capability floor; the operational rationale affects interpretation and measurability."
+          }
+        ],
+        "PR.5": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no more than', both of which violate A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "Referencing 'FR.2' as the operation to execute is ambiguous without defining the start and end conditions for timing measurement."
+          }
+        ],
+        "PR.6": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no less than', both of which violate A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "It is unclear whether the minimum duration is a safety constraint, a deliberate pacing requirement, or a system capability floor; the operational rationale affects interpretation and measurability."
+          }
+        ],
+        "PR.7": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The ConOps and project context explicitly state the system operates aboard the ISS, which is a microgravity environment; requiring the system to move mass 'perpendicular to normal Earth gravity (9.81 m/s\u00b2)' contradicts the operational environment and cannot be traced back to the stated ConOps or context."
+          },
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "Given the ISS microgravity environment described in the project context, specifying movement perpendicular to Earth gravity (9.81 m/s\u00b2) does not reflect a real operational need and may not trace back to a valid stakeholder need or ConOps element."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The phrase 'perpendicular to normal Earth gravity' is ambiguous in a microgravity ISS environment; it is unclear what reference frame or direction this implies during actual on-orbit operations."
+          }
+        ],
+        "ER.1": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The term 'low humidity' is qualitative and lacks a measurable or quantifiable definition, violating A4.1."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement addresses three distinct environmental characteristics simultaneously: temperature, humidity, and pressure, which should each be stated as separate requirements."
+          }
+        ],
+        "ER.2": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement does not define a measurable threshold for 'any particulates'; it is unclear whether zero emission is required or if a quantified maximum particulate level is intended, making verification impossible."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement is phrased as a negative statement ('shall not contribute'), violating A10.2."
+          }
+        ],
+        "ER.3": [
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "The requirement prescribes a specific design solution ('enclose all lubricated components') rather than expressing the need in a solution-agnostic manner, violating A2.2."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement is phrased as a negative statement ('to prevent lubricant leakage'), violating A10.2, and does not follow the positive imperative verb structure cleanly."
+          }
+        ],
+        "RR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'no more than' which violates A10.3."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The parenthetical assumption ('assuming a maximum operational duration of one minute') introduces a conditional context that is not fully defined; it is unclear whether this assumption is always valid or only under specific conditions, and it conflates energy and duration constraints in a single statement."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement combines an energy consumption constraint with an operational duration assumption, effectively expressing two constraints in one statement."
+          }
+        ]
+      },
+      "diagnostics": {
+        "a1_suppressed_true_flags": 0,
+        "a11_diverted_reqs": 0
+      }
+    },
+    {
+      "run": 4,
+      "raw": {
+        "FR.1": [
+          "A10",
+          "A2",
+          "A6"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A4",
+          "A10"
+        ],
+        "PR.2": [
+          "A4",
+          "A10"
+        ],
+        "PR.3": [
+          "A10",
+          "A9"
+        ],
+        "PR.4": [
+          "A10",
+          "A9"
+        ],
+        "PR.5": [
+          "A10",
+          "A9"
+        ],
+        "PR.6": [
+          "A10",
+          "A9"
+        ],
+        "PR.7": [
+          "A10",
+          "A2",
+          "A4",
+          "A9"
+        ],
+        "ER.1": [
+          "A4",
+          "A4",
+          "A6"
+        ],
+        "ER.2": [
+          "A4",
+          "A10"
+        ],
+        "ER.3": [
+          "A2",
+          "A10"
+        ],
+        "RR.1": [
+          "A10",
+          "A5",
+          "A6"
+        ]
+      },
+      "normalized": {
+        "FR.1": [
+          "A10",
+          "A2",
+          "A6"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A4",
+          "A10"
+        ],
+        "PR.2": [
+          "A4",
+          "A10"
+        ],
+        "PR.3": [
+          "A10",
+          "A9"
+        ],
+        "PR.4": [
+          "A10",
+          "A9"
+        ],
+        "PR.5": [
+          "A10",
+          "A9"
+        ],
+        "PR.6": [
+          "A10",
+          "A9"
+        ],
+        "PR.7": [
+          "A10",
+          "A2",
+          "A4",
+          "A9"
+        ],
+        "ER.1": [
+          "A4",
+          "A4",
+          "A6"
+        ],
+        "ER.2": [
+          "A4",
+          "A10"
+        ],
+        "ER.3": [
+          "A2",
+          "A10"
+        ],
+        "RR.1": [
+          "A10",
+          "A5",
+          "A6"
+        ]
+      },
+      "evaluations": {
+        "FR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' construction, which is explicitly discouraged by A10.3. Additionally, it includes design/implementation detail ('The path is notional and the mechanical linkage is assumed to be designed separately') that belongs in a note or rationale field, not in the requirement body."
+          },
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "The requirement specifies exact Cartesian coordinates for the origin and destination points, which imposes a specific geometric design solution rather than expressing the need in a solution-agnostic manner (A2.2)."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement conflates the motion capability with an implementation note about the path being notional and the mechanical linkage being designed separately, embedding multiple statements into one requirement."
+          }
+        ],
+        "FR.2": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses the 'shall be able to' construction, which is explicitly discouraged by A10.3."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "Unlike FR.1, this requirement does not specify the coordinates of the destination point or origin point explicitly, relying entirely on cross-references to FR.1 without defining the points independently, which makes the requirement incomplete on its own."
+          }
+        ],
+        "PR.1": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'FR.1' as the operation to be executed, but 'each Cartesian direction' is ambiguous \u2014 it is unclear whether accuracy applies at the final destination point only, or at all intermediate positions along the path."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement includes a parenthetical unit conversion '(\u00b10.1 inches)' alongside the SI unit, which is redundant and non-standard; requirements should use a single, consistent unit system."
+          }
+        ],
+        "PR.2": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'FR.2' as the operation to be executed, but 'each Cartesian direction' is ambiguous \u2014 it is unclear whether accuracy applies only at the final return position or throughout the motion."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement includes a parenthetical unit conversion '(\u00b10.1 inches)' alongside the SI unit, which is redundant and inconsistent with a single-unit-system standard."
+          }
+        ],
+        "PR.3": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no more than' constructions, both of which are explicitly discouraged by A10.3."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The 30-second maximum duration threshold does not appear to be traceable to the ConOps, problem statement, or any provided source document, making its justification unclear (A9.3)."
+          }
+        ],
+        "PR.4": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses both 'shall be able to' and 'no less than' constructions, both of which are explicitly prohibited by A10.3."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The 5-second minimum duration threshold does not appear to be traceable to the ConOps, problem statement, or any provided source document, making its justification unclear (A9.3)."
+          }
+        ],
+        "PR.5": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no more than' constructions, both of which are explicitly discouraged by A10.3."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The 30-second maximum duration threshold does not appear to be traceable to the ConOps, problem statement, or any provided source document, making its justification unclear (A9.3)."
+          }
+        ],
+        "PR.6": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses both 'shall be able to' and 'no less than' constructions, both of which are explicitly prohibited by A10.3."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The 5-second minimum duration threshold does not appear to be traceable to the ConOps, problem statement, or any provided source document, making its justification unclear (A9.3)."
+          }
+        ],
+        "PR.7": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses the 'shall be able to' construction, which is explicitly discouraged by A10.3."
+          },
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "The requirement specifies moving the mass 'perpendicular to normal Earth gravity (9.81 m/s\u00b2)', which imposes a specific orientation constraint and references Earth gravity in the context of an ISS (microgravity) environment, making the constraint potentially inconsistent with the operational environment and not clearly traceable to a stakeholder need."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "'Perpendicular to normal Earth gravity' is ambiguous in the ISS microgravity environment where Earth gravity is not a meaningful local reference direction; the intended orientation of the motion is unclear."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The 3.6 kg point mass value and the Earth gravity reference do not appear to be explicitly traceable to the ConOps or problem statement, and referencing Earth gravity for an ISS system may misrepresent the actual operational environment (A9.3)."
+          }
+        ],
+        "ER.1": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "'Low humidity' is a qualitative descriptor without a measurable or quantifiable definition (A4.1), making it impossible to verify compliance objectively."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "'Earth-like atmosphere' and 'approximately 21\u00b0C' use vague or approximate descriptors; 'approximately' does not provide a verifiable tolerance band for the temperature."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement addresses multiple distinct environmental characteristics simultaneously \u2014 atmosphere type, temperature, humidity, and pressure \u2014 which are four separate constraints bundled into one requirement."
+          }
+        ],
+        "ER.2": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "'Any particulates' is not quantitatively defined; there is no measurable threshold (e.g., particle count per volume, particle size limit) specified, making verification of compliance unclear."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement is phrased as a negative statement ('shall not contribute'), which violates A10.2 requiring requirements to be phrased as positive statements."
+          }
+        ],
+        "ER.3": [
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "The requirement specifies a particular design solution \u2014 enclosing lubricated components \u2014 rather than expressing the need in a solution-agnostic manner (A2.2). The underlying need is to prevent lubricant contamination of the ISS atmosphere."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'prevent lubricant leakage', which can be interpreted as a negative constraint construction, and it is borderline non-conforming to the positive-statement style required by A10.2."
+          }
+        ],
+        "RR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses the 'no more than' construction, which is explicitly discouraged by A10.3."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement includes a parenthetical assumption ('assuming a maximum operational duration of one minute') embedded in the requirement body rather than as a traceable condition or separate rationale, making the scope of the energy constraint conditionally defined in an informal manner."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement combines an energy consumption constraint with an embedded operational duration assumption, effectively expressing two distinct statements within one requirement."
+          }
+        ]
+      },
+      "diagnostics": {
+        "a1_suppressed_true_flags": 0,
+        "a11_diverted_reqs": 0
+      }
+    },
+    {
+      "run": 5,
+      "raw": {
+        "FR.1": [
+          "A10",
+          "A4"
+        ],
+        "FR.2": [
+          "A10"
+        ],
+        "PR.1": [
+          "A10",
+          "A5"
+        ],
+        "PR.2": [
+          "A5"
+        ],
+        "PR.3": [
+          "A10"
+        ],
+        "PR.4": [
+          "A10"
+        ],
+        "PR.5": [
+          "A10"
+        ],
+        "PR.6": [
+          "A10"
+        ],
+        "PR.7": [
+          "A10",
+          "A9",
+          "A4",
+          "A2"
+        ],
+        "ER.1": [
+          "A9",
+          "A4"
+        ],
+        "ER.2": [
+          "A10",
+          "A5"
+        ],
+        "ER.3": [
+          "A10",
+          "A2"
+        ],
+        "RR.1": [
+          "A10",
+          "A6",
+          "A4"
+        ]
+      },
+      "normalized": {
+        "FR.1": [
+          "A10",
+          "A4"
+        ],
+        "FR.2": [
+          "A10"
+        ],
+        "PR.1": [
+          "A10",
+          "A5"
+        ],
+        "PR.2": [
+          "A5"
+        ],
+        "PR.3": [
+          "A10"
+        ],
+        "PR.4": [
+          "A10"
+        ],
+        "PR.5": [
+          "A10"
+        ],
+        "PR.6": [
+          "A10"
+        ],
+        "PR.7": [
+          "A10",
+          "A9",
+          "A4",
+          "A2"
+        ],
+        "ER.1": [
+          "A9",
+          "A4"
+        ],
+        "ER.2": [
+          "A10",
+          "A5"
+        ],
+        "ER.3": [
+          "A10",
+          "A2"
+        ],
+        "RR.1": [
+          "A10",
+          "A6",
+          "A4"
+        ]
+      },
+      "evaluations": {
+        "FR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3. Additionally, the note about the mechanical linkage being designed separately is an extraneous design context statement embedded in the requirement body rather than a proper note or separate document section."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The term 'notional path' is vague and undefined; it is unclear what constraints, if any, apply to the trajectory between origin and destination, leading to multiple possible interpretations."
+          }
+        ],
+        "FR.2": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3."
+          }
+        ],
+        "PR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement references 'FR.1' by name rather than describing the capability directly, which is acceptable in context, but the phrasing 'shall execute FR.1 with an accuracy' is an unusual construction; however, the more direct issue is that this is borderline acceptable. No clear A10 violation beyond style. Reconsidering: no strong A10 violation exists here."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement specifies positional accuracy at the destination point but does not clarify whether the accuracy applies only at the final resting position or also along the path of travel, leaving the operational context incomplete."
+          }
+        ],
+        "PR.2": [
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "Similar to PR.1, the requirement does not clarify whether the accuracy of \u00b12.5 mm applies only at the final resting position (origin) or also along the return path, leaving the operational context incomplete."
+          }
+        ],
+        "PR.3": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3, and uses 'no more than' which also violates A10.3."
+          }
+        ],
+        "PR.4": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no less than', both of which violate A10.3."
+          }
+        ],
+        "PR.5": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no more than', both of which violate A10.3."
+          }
+        ],
+        "PR.6": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no less than', both of which violate A10.3."
+          }
+        ],
+        "PR.7": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The requirement specifies movement 'perpendicular to normal Earth gravity (9.81 m/s\u00b2)', but the system operates aboard the ISS in a microgravity environment, making reference to Earth gravity (9.81 m/s\u00b2) as an operational condition inaccurate and potentially contradictory to the project context."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The phrase 'perpendicular to normal Earth gravity' is ambiguous in the context of the ISS microgravity environment; it is unclear whether this describes the orientation of the system during ground testing, the direction of mass displacement, or another condition."
+          },
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "Specifying movement relative to Earth gravity (9.81 m/s\u00b2) does not trace back to the ISS operational ConOps, where microgravity conditions prevail; this constraint appears to impose a ground-testing design condition not derived from the stated mission need."
+          }
+        ],
+        "ER.1": [
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The ISS atmosphere is maintained at approximately 101.3 kPa, not 100 kPa; specifying 100 kPa as the operating pressure is not accurately traceable to the ISS environmental standard referenced in the ConOps."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The term 'low humidity' is qualitative and not defined with a measurable threshold, making it impossible to verify compliance objectively."
+          }
+        ],
+        "ER.2": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement is phrased as a negative statement ('shall not contribute'), violating A10.2 which requires requirements to be stated as positive statements."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement does not specify an allowable threshold or limit for particulate contribution; an absolute prohibition of 'any particulates' may be unverifiable and lacks a measurable acceptance criterion."
+          }
+        ],
+        "ER.3": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement is phrased as a negative statement ('shall enclose... to prevent'), where 'prevent' implies a prohibition framing; more critically, the phrasing 'to prevent lubricant leakage' introduces a rationale/design intent rather than a verifiable condition."
+          },
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "The requirement prescribes a specific design solution (enclosing lubricated components) rather than stating the need (no lubricant leakage into the ISS atmosphere), violating the solution-agnostic principle of necessity."
+          }
+        ],
+        "RR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'no more than' which violates A10.3."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement simultaneously constrains energy consumption and embeds an assumption about maximum operational duration (one minute), effectively combining an energy budget constraint with a timing assumption in a single statement."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The phrase 'assuming a maximum operational duration of one minute' introduces a conditional assumption within the requirement body that is not defined elsewhere, making the energy limit context-dependent and open to varying interpretations."
+          }
+        ]
+      },
+      "diagnostics": {
+        "a1_suppressed_true_flags": 0,
+        "a11_diverted_reqs": 0
+      }
+    },
+    {
+      "run": 6,
+      "raw": {
+        "FR.1": [
+          "A10",
+          "A6"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A4",
+          "A10"
+        ],
+        "PR.2": [
+          "A4",
+          "A10"
+        ],
+        "PR.3": [
+          "A10",
+          "A4"
+        ],
+        "PR.4": [
+          "A10",
+          "A4",
+          "A2"
+        ],
+        "PR.5": [
+          "A10",
+          "A4"
+        ],
+        "PR.6": [
+          "A10",
+          "A4",
+          "A2"
+        ],
+        "PR.7": [
+          "A10",
+          "A9",
+          "A4"
+        ],
+        "ER.1": [
+          "A9",
+          "A4"
+        ],
+        "ER.2": [
+          "A1"
+        ],
+        "ER.3": [
+          "A1"
+        ],
+        "RR.1": [
+          "A6",
+          "A4",
+          "A9"
+        ]
+      },
+      "normalized": {
+        "FR.1": [
+          "A10",
+          "A6"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A4",
+          "A10"
+        ],
+        "PR.2": [
+          "A4",
+          "A10"
+        ],
+        "PR.3": [
+          "A10",
+          "A4"
+        ],
+        "PR.4": [
+          "A10",
+          "A4",
+          "A2"
+        ],
+        "PR.5": [
+          "A10",
+          "A4"
+        ],
+        "PR.6": [
+          "A10",
+          "A4",
+          "A2"
+        ],
+        "PR.7": [
+          "A10",
+          "A9",
+          "A4"
+        ],
+        "ER.1": [
+          "A9",
+          "A4"
+        ],
+        "ER.2": [
+          "A1"
+        ],
+        "ER.3": [
+          "A1"
+        ],
+        "RR.1": [
+          "A6",
+          "A4",
+          "A9"
+        ]
+      },
+      "evaluations": {
+        "FR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates style guide rule A10.3. Additionally, the note about the mechanical linkage being designed separately is extraneous information that does not belong in the requirement body."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement conflates the motion capability with a note about the mechanical linkage design assumption, introducing a secondary statement about design scope into a single requirement."
+          }
+        ],
+        "FR.2": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates style guide rule A10.3."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "Unlike FR.1, this requirement does not specify the coordinates of the destination point or the origin point explicitly, relying entirely on cross-referencing FR.1, which reduces standalone completeness and clarity."
+          }
+        ],
+        "PR.1": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'FR.1' as the activity being executed, but 'execute FR.1' is not a clearly defined operational term; it is ambiguous whether accuracy applies to the final position, the path, or both."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'execute FR.1' which is referencing another requirement rather than describing the system behavior directly, and is not standard requirement phrasing practice."
+          }
+        ],
+        "PR.2": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'FR.2' as the activity being executed, but 'execute FR.2' is not a clearly defined operational term; it is ambiguous whether accuracy applies to the final position, the path, or both."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'execute FR.2' which is referencing another requirement rather than describing the system behavior directly, and is not standard requirement phrasing practice."
+          }
+        ],
+        "PR.3": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates style guide rule A10.3, and also uses 'no more than' which is explicitly disallowed per A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'execute FR.1' without clearly defining what constitutes the start and end of execution, making the timing window ambiguous."
+          }
+        ],
+        "PR.4": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no less than', both of which are explicitly disallowed per style guide rule A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'execute FR.1' without clearly defining what constitutes the start and end of execution, making the timing window ambiguous."
+          },
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "A minimum execution time constraint of 5 seconds is not traced to any stated stakeholder need, ConOps requirement, or higher-level requirement in the provided source material; its necessity is unclear."
+          }
+        ],
+        "PR.5": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no more than', both of which are explicitly disallowed per style guide rule A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'execute FR.2' without clearly defining what constitutes the start and end of execution, making the timing window ambiguous."
+          }
+        ],
+        "PR.6": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no less than', both of which are explicitly disallowed per style guide rule A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'execute FR.2' without clearly defining what constitutes the start and end of execution, making the timing window ambiguous."
+          },
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "A minimum execution time constraint of 5 seconds is not traced to any stated stakeholder need, ConOps requirement, or higher-level requirement in the provided source material; its necessity is unclear."
+          }
+        ],
+        "PR.7": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates style guide rule A10.3."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The requirement specifies movement 'perpendicular to normal Earth gravity (9.81 m/s\u00b2)', but the system operates aboard the ISS in microgravity, not in a 1g environment; this conflicts with the project context and ConOps."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The phrase 'perpendicular to normal Earth gravity' is ambiguous in the context of the ISS microgravity environment, as there is no meaningful gravitational reference direction on orbit to define 'perpendicular to gravity'."
+          }
+        ],
+        "ER.1": [
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The requirement states the system shall operate in an 'Earth-like atmosphere,' but the system operates aboard the ISS, whose atmosphere is maintained at specific ISS environmental standards that may differ from generic Earth-like conditions; the characterization may be inaccurate."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The term 'low humidity' is qualitative and not quantified with a measurable threshold, making it impossible to verify compliance objectively."
+          }
+        ],
+        "ER.2": [
+          {
+            "criterion": "A1",
+            "name": "No Issues",
+            "explanation": "No issues found with this requirement."
+          }
+        ],
+        "ER.3": [
+          {
+            "criterion": "A1",
+            "name": "No Issues",
+            "explanation": "No issues found with this requirement."
+          }
+        ],
+        "RR.1": [
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement combines an energy consumption constraint with an assumed maximum operational duration condition, effectively stating two constraints in a single requirement."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The phrase 'support all operations' is vague and does not clearly specify which operations are included (e.g., whether standby, initialization, or only active motion phases are counted)."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The assumed maximum operational duration of one minute is not traced to any stated stakeholder need, ConOps, or higher-level requirement in the provided source material, making the basis for this boundary value unclear."
+          }
+        ]
+      },
+      "diagnostics": {
+        "a1_suppressed_true_flags": 0,
+        "a11_diverted_reqs": 0
+      }
+    },
+    {
+      "run": 7,
+      "raw": {
+        "FR.1": [
+          "A10",
+          "A2",
+          "A6"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A4",
+          "A10"
+        ],
+        "PR.2": [
+          "A4",
+          "A10"
+        ],
+        "PR.3": [
+          "A10",
+          "A4"
+        ],
+        "PR.4": [
+          "A10",
+          "A4"
+        ],
+        "PR.5": [
+          "A10",
+          "A4"
+        ],
+        "PR.6": [
+          "A10",
+          "A4"
+        ],
+        "PR.7": [
+          "A10",
+          "A3",
+          "A4"
+        ],
+        "ER.1": [
+          "A4",
+          "A6"
+        ],
+        "ER.2": [
+          "A1"
+        ],
+        "ER.3": [
+          "A2"
+        ],
+        "RR.1": [
+          "A10",
+          "A5",
+          "A6"
+        ]
+      },
+      "normalized": {
+        "FR.1": [
+          "A10",
+          "A2",
+          "A6"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A4",
+          "A10"
+        ],
+        "PR.2": [
+          "A4",
+          "A10"
+        ],
+        "PR.3": [
+          "A10",
+          "A4"
+        ],
+        "PR.4": [
+          "A10",
+          "A4"
+        ],
+        "PR.5": [
+          "A10",
+          "A4"
+        ],
+        "PR.6": [
+          "A10",
+          "A4"
+        ],
+        "PR.7": [
+          "A10",
+          "A3",
+          "A4"
+        ],
+        "ER.1": [
+          "A4",
+          "A6"
+        ],
+        "ER.2": [
+          "A1"
+        ],
+        "ER.3": [
+          "A2"
+        ],
+        "RR.1": [
+          "A10",
+          "A5",
+          "A6"
+        ]
+      },
+      "evaluations": {
+        "FR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3. Additionally, the note about the mechanical linkage being designed separately is a design/scope clarification that does not belong in the body of the requirement statement."
+          },
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "The requirement specifies exact Cartesian coordinates for the origin and destination points, which imposes a specific design solution (a fixed coordinate frame and precise positions) rather than expressing the need in a solution-agnostic manner (A2.2)."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement conflates the displacement capability with a scope/design note ('The path is notional and the mechanical linkage is assumed to be designed separately'), introducing a second statement that is not a capability but a design assumption."
+          }
+        ],
+        "FR.2": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which is explicitly discouraged under A10.3."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement does not specify the coordinates of the destination point or origin point, relying entirely on FR.1 for context; a standalone requirement should fully describe the starting and ending positions of the return motion."
+          }
+        ],
+        "PR.1": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'FR.1' as the context for accuracy but does not clarify whether accuracy is measured at the final resting position of the point mass or at the system output, leaving the measurement point open to interpretation."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement states accuracy in both mm and inches as a parenthetical, but the two values (\u00b12.5 mm and \u00b10.1 inches = \u00b12.54 mm) are not exactly equivalent, introducing an inconsistency."
+          }
+        ],
+        "PR.2": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "Similar to PR.1, the requirement references 'FR.2' without clarifying the measurement point for accuracy (e.g., final position of the point mass vs. system output)."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The parenthetical conversion (\u00b10.1 inches = \u00b12.54 mm) does not exactly equal \u00b12.5 mm, creating a numeric inconsistency within the same requirement."
+          }
+        ],
+        "PR.3": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no more than', both of which are discouraged constructions under A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement does not define when timing starts and ends (e.g., from receipt of control signal to point mass reaching destination), leaving the measurement interval ambiguous."
+          }
+        ],
+        "PR.4": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses both 'shall be able to' and 'no less than', which are explicitly discouraged constructions under A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement does not define the start and end events for the timing measurement, leaving the 5-second minimum duration open to interpretation."
+          }
+        ],
+        "PR.5": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no more than', both of which are discouraged constructions under A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement does not define the start and end events for timing the return motion, leaving the measurement interval ambiguous."
+          }
+        ],
+        "PR.6": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses both 'shall be able to' and 'no less than', which are explicitly discouraged constructions under A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement does not define the start and end events for the timing measurement of the return motion, leaving the 5-second minimum ambiguous."
+          }
+        ],
+        "PR.7": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to', which is an explicitly discouraged construction under A10.3."
+          },
+          {
+            "criterion": "A3",
+            "name": "Appropriate",
+            "explanation": "The requirement specifies the direction of movement relative to 'normal Earth gravity (9.81 m/s\u00b2)', but the system operates aboard the ISS in microgravity; referencing Earth gravity as an operational constraint is inconsistent with the operational environment and may reflect a test/lab condition rather than a system-level operational characteristic."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The phrase 'perpendicular to normal Earth gravity' is ambiguous in the context of ISS operations where microgravity prevails; it is unclear whether this refers to a lab testing orientation or an operational requirement."
+          }
+        ],
+        "ER.1": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The term 'low humidity' is a qualitative descriptor without a measurable or quantifiable definition (e.g., a specific relative humidity percentage or range), violating A4.1."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement combines three distinct environmental constraints \u2014 temperature, humidity, and pressure \u2014 into a single requirement statement, violating A6.1."
+          }
+        ],
+        "ER.2": [
+          {
+            "criterion": "A1",
+            "name": "No Issues",
+            "explanation": "No issues found with this requirement."
+          }
+        ],
+        "ER.3": [
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "The requirement prescribes a specific design solution (enclosing lubricated components) rather than stating the need in a solution-agnostic manner; the underlying need is to prevent lubricant contamination of the ISS atmosphere, which could be met by other means (A2.2)."
+          }
+        ],
+        "RR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall not consume more than', which contains a 'no more than' construction that is discouraged under A10.3."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement introduces a parenthetical assumption ('assuming a maximum operational duration of one minute') as a condition, but this assumption is not defined or justified elsewhere; the operational duration basis for the energy budget is insufficiently specified as a standalone constraint."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement simultaneously constrains energy consumption (1.5 watt-hours) and introduces an assumed operational duration condition (one minute), combining an energy budget requirement with a timing assumption in a single statement."
+          }
+        ]
+      },
+      "diagnostics": {
+        "a1_suppressed_true_flags": 0,
+        "a11_diverted_reqs": 0
+      }
+    },
+    {
+      "run": 8,
+      "raw": {
+        "FR.1": [
+          "A10",
+          "A5"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A4",
+          "A10"
+        ],
+        "PR.2": [
+          "A4",
+          "A10"
+        ],
+        "PR.3": [
+          "A10",
+          "A10"
+        ],
+        "PR.4": [
+          "A10",
+          "A9"
+        ],
+        "PR.5": [
+          "A10"
+        ],
+        "PR.6": [
+          "A10",
+          "A9"
+        ],
+        "PR.7": [
+          "A10",
+          "A4",
+          "A9"
+        ],
+        "ER.1": [
+          "A4",
+          "A4"
+        ],
+        "ER.2": [
+          "A10",
+          "A5"
+        ],
+        "ER.3": [
+          "A10",
+          "A2"
+        ],
+        "RR.1": [
+          "A10",
+          "A5",
+          "A6"
+        ]
+      },
+      "normalized": {
+        "FR.1": [
+          "A10",
+          "A5"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A4",
+          "A10"
+        ],
+        "PR.2": [
+          "A4",
+          "A10"
+        ],
+        "PR.3": [
+          "A10",
+          "A10"
+        ],
+        "PR.4": [
+          "A10",
+          "A9"
+        ],
+        "PR.5": [
+          "A10"
+        ],
+        "PR.6": [
+          "A10",
+          "A9"
+        ],
+        "PR.7": [
+          "A10",
+          "A4",
+          "A9"
+        ],
+        "ER.1": [
+          "A4",
+          "A4"
+        ],
+        "ER.2": [
+          "A10",
+          "A5"
+        ],
+        "ER.3": [
+          "A10",
+          "A2"
+        ],
+        "RR.1": [
+          "A10",
+          "A5",
+          "A6"
+        ]
+      },
+      "evaluations": {
+        "FR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which is explicitly disallowed by sub-rule A10.3. Additionally, the note about the mechanical linkage being designed separately is extraneous context that does not belong in the requirement body."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement does not specify the point mass value (mass/weight) that must be moved, which is a critical operational property needed to fully describe the capability."
+          }
+        ],
+        "FR.2": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which is explicitly disallowed by sub-rule A10.3."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement does not specify the coordinates of the destination point or origin point explicitly, relying entirely on FR.1 for context, which makes it incomplete as a standalone requirement."
+          }
+        ],
+        "PR.1": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'FR.1' as the operation being constrained, but 'each Cartesian direction' is ambiguous without specifying which coordinate frame or reference system is used to define those directions."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall execute FR.1 with an accuracy' \u2014 referencing another requirement ID as a verb object is non-standard phrasing and does not follow the approved sentence structure pattern for clarity and independence."
+          }
+        ],
+        "PR.2": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'FR.2' as the operation being constrained, but 'each Cartesian direction' is ambiguous without specifying which coordinate frame or reference system is used."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall execute FR.2 with an accuracy' \u2014 referencing another requirement ID as a verb object is non-standard phrasing and does not follow the approved sentence structure pattern."
+          }
+        ],
+        "PR.3": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which is explicitly disallowed by sub-rule A10.3, and also uses 'no more than' which is explicitly disallowed by sub-rule A10.3."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement references 'FR.1' as a verb object, which is non-standard phrasing and reduces readability and independence of the requirement."
+          }
+        ],
+        "PR.4": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses both 'shall be able to' and 'no less than', both of which are explicitly disallowed by sub-rule A10.3."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "A minimum execution time of 5 seconds imposes a lower bound on speed that is not traceable to any stated stakeholder need, ConOps, or problem statement provided; the justification for this specific threshold is not evident from the source documents."
+          }
+        ],
+        "PR.5": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses both 'shall be able to' and 'no more than', both of which are explicitly disallowed by sub-rule A10.3."
+          }
+        ],
+        "PR.6": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses both 'shall be able to' and 'no less than', both of which are explicitly disallowed by sub-rule A10.3."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "A minimum execution time of 5 seconds imposes a lower bound on speed that is not traceable to any stated stakeholder need, ConOps, or problem statement provided; the justification for this specific threshold is not evident from the source documents."
+          }
+        ],
+        "PR.7": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which is explicitly disallowed by sub-rule A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The phrase 'perpendicular to normal Earth gravity' is ambiguous \u2014 it could mean the motion direction is perpendicular to the gravity vector, or that the system operates in a plane perpendicular to gravity, and the operational relevance in a microgravity ISS environment is unclear."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The system is intended to operate aboard the ISS in a microgravity environment, yet the requirement specifies moving the mass perpendicular to Earth gravity (9.81 m/s\u00b2), which contradicts the project context and is not traceable to the stated operational environment."
+          }
+        ],
+        "ER.1": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The term 'low humidity' is qualitative and not measurable or quantifiable as required by sub-rule A4.1; a specific relative humidity value or range should be provided."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The phrase 'Earth-like atmosphere' is vague and subject to multiple interpretations; the specific atmospheric composition or relevant properties should be explicitly defined."
+          }
+        ],
+        "ER.2": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement is phrased as a negative statement ('shall not contribute'), which violates sub-rule A10.2 requiring positive phrasing."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement does not specify a measurable threshold or limit for particulate contribution; 'any particulates' as an absolute zero-emission constraint may be impractical and is not quantified against a testable standard."
+          }
+        ],
+        "ER.3": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement is phrased as a negative statement ('shall enclose... to prevent lubricant leakage'), where 'prevent' implies a prohibition; sub-rule A10.2 requires positive phrasing."
+          },
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "The requirement prescribes a specific design solution (enclosing lubricated components) rather than expressing the need (preventing lubricant contamination of the ISS atmosphere), violating sub-rule A2.2."
+          }
+        ],
+        "RR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall not consume more than' which contains 'not' and 'no more than' equivalent phrasing, violating sub-rule A10.3 which disallows 'no more than' and negative constructions."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement bundles an energy limit with an assumed operational duration as a parenthetical condition, but does not clearly define what 'all operations' encompasses or how the energy budget is allocated across the operational cycle."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement combines an energy consumption constraint with an assumed maximum operational duration condition, effectively expressing two constraints in a single statement."
+          }
+        ]
+      },
+      "diagnostics": {
+        "a1_suppressed_true_flags": 0,
+        "a11_diverted_reqs": 0
+      }
+    },
+    {
+      "run": 9,
+      "raw": {
+        "FR.1": [
+          "A10",
+          "A3"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A10",
+          "A4"
+        ],
+        "PR.2": [
+          "A10",
+          "A4"
+        ],
+        "PR.3": [
+          "A10",
+          "A6"
+        ],
+        "PR.4": [
+          "A10",
+          "A9"
+        ],
+        "PR.5": [
+          "A10"
+        ],
+        "PR.6": [
+          "A10",
+          "A9"
+        ],
+        "PR.7": [
+          "A10",
+          "A4",
+          "A9",
+          "A2"
+        ],
+        "ER.1": [
+          "A4",
+          "A6"
+        ],
+        "ER.2": [
+          "A1"
+        ],
+        "ER.3": [
+          "A2"
+        ],
+        "RR.1": [
+          "A10",
+          "A5"
+        ]
+      },
+      "normalized": {
+        "FR.1": [
+          "A10",
+          "A3"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A10",
+          "A4"
+        ],
+        "PR.2": [
+          "A10",
+          "A4"
+        ],
+        "PR.3": [
+          "A10",
+          "A6"
+        ],
+        "PR.4": [
+          "A10",
+          "A9"
+        ],
+        "PR.5": [
+          "A10"
+        ],
+        "PR.6": [
+          "A10",
+          "A9"
+        ],
+        "PR.7": [
+          "A10",
+          "A4",
+          "A9",
+          "A2"
+        ],
+        "ER.1": [
+          "A4",
+          "A6"
+        ],
+        "ER.2": [
+          "A1"
+        ],
+        "ER.3": [
+          "A2"
+        ],
+        "RR.1": [
+          "A10",
+          "A5"
+        ]
+      },
+      "evaluations": {
+        "FR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which is explicitly discouraged by A10.3. Additionally, it includes design/implementation detail ('The path is notional and the mechanical linkage is assumed to be designed separately') that does not belong in the body of a requirement statement."
+          },
+          {
+            "criterion": "A3",
+            "name": "Appropriate",
+            "explanation": "The note about the mechanical linkage being designed separately references a subsystem design decision, which is not appropriate to include in the body of a system-level requirement."
+          }
+        ],
+        "FR.2": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which is explicitly discouraged by A10.3."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The destination point and origin point coordinates are not restated or referenced explicitly here; the requirement relies entirely on FR.1 for positional context without defining those points, making it incomplete as a standalone requirement."
+          }
+        ],
+        "PR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement references 'FR.1' by name rather than describing the capability, which is acceptable, but the phrasing 'shall execute FR.1' is unconventional and arguably non-conforming to standard requirement sentence structure where the system's own behavior should be described directly."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The term 'accuracy' is not defined; it is unclear whether this refers to positional repeatability, absolute accuracy, or another metric, leading to multiple possible interpretations."
+          }
+        ],
+        "PR.2": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses the phrasing 'shall execute FR.2', which is an unconventional and non-standard sentence structure for a requirement; system behavior should be described directly rather than by referencing another requirement label."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The term 'accuracy' is not defined; it is unclear whether this refers to positional repeatability, absolute accuracy, or another metric, leading to multiple possible interpretations."
+          }
+        ],
+        "PR.3": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which is explicitly discouraged by A10.3, and also uses 'no more than' which is also discouraged by A10.3."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "When read together with PR.4, the time constraint is split across two requirements; however, individually PR.3 states only one constraint (upper bound), so this is borderline. Evaluated alone, PR.3 is singular."
+          }
+        ],
+        "PR.4": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no less than', both of which are explicitly discouraged by A10.3."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "A minimum execution time of 5 seconds is imposed as a constraint, but no traceability to a stakeholder need, ConOps, or source document is evident that justifies this lower bound; it appears to be an added constraint without clear justification."
+          }
+        ],
+        "PR.5": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no more than', both of which are explicitly discouraged by A10.3."
+          }
+        ],
+        "PR.6": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' and 'no less than', both of which are explicitly discouraged by A10.3."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "A minimum execution time of 5 seconds is imposed as a constraint, but no traceability to a stakeholder need, ConOps, or source document is evident that justifies this lower bound; it appears to be an added constraint without clear justification."
+          }
+        ],
+        "PR.7": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which is explicitly discouraged by A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The phrase 'perpendicular to normal Earth gravity' is ambiguous; on the ISS in microgravity, the concept of a gravitational direction is not well-defined operationally, making this descriptor unclear in the intended environment."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The requirement references 'normal Earth gravity (9.81 m/s\u00b2)' as a condition, but the system operates aboard the ISS in microgravity; specifying Earth gravity as the operational gravity condition is inconsistent with the stated operating environment and not traceable to the ConOps."
+          },
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "The ConOps and project context state the system operates on the ISS in microgravity; a requirement to move a mass 'perpendicular to normal Earth gravity' imposes an Earth-gravity condition inconsistent with the mission, making its necessity questionable in the stated context."
+          }
+        ],
+        "ER.1": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The term 'low humidity' is qualitative and not defined with a measurable threshold, making the requirement ambiguous and not verifiable."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement simultaneously specifies three distinct environmental conditions\u2014temperature, humidity, and pressure\u2014which are three separate characteristics bundled into one requirement statement."
+          }
+        ],
+        "ER.2": [
+          {
+            "criterion": "A1",
+            "name": "No Issues",
+            "explanation": "No issues found with this requirement."
+          }
+        ],
+        "ER.3": [
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "The requirement prescribes a specific design solution (enclosing lubricated components) rather than stating the need (preventing lubricant contamination of the ISS atmosphere), violating the solution-agnostic principle of necessity."
+          }
+        ],
+        "RR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'not consume more than' which is a form of 'no more than' construction discouraged by A10.3, and it also uses a negative phrasing ('shall not consume') which violates A10.2."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement parenthetically assumes a maximum operational duration of one minute to derive the energy cap, but this assumption is not established elsewhere in the requirements or ConOps, making the basis for the 1.5 watt-hours value incompletely justified within the requirement."
+          }
+        ]
+      },
+      "diagnostics": {
+        "a1_suppressed_true_flags": 0,
+        "a11_diverted_reqs": 0
+      }
+    },
+    {
+      "run": 10,
+      "raw": {
+        "FR.1": [
+          "A10",
+          "A2",
+          "A6"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A4",
+          "A10"
+        ],
+        "PR.2": [
+          "A4",
+          "A10"
+        ],
+        "PR.3": [
+          "A10",
+          "A4"
+        ],
+        "PR.4": [
+          "A10",
+          "A4",
+          "A9"
+        ],
+        "PR.5": [
+          "A10",
+          "A4"
+        ],
+        "PR.6": [
+          "A10",
+          "A4",
+          "A9"
+        ],
+        "PR.7": [
+          "A10",
+          "A3",
+          "A9"
+        ],
+        "ER.1": [
+          "A4",
+          "A6",
+          "A9"
+        ],
+        "ER.2": [
+          "A1"
+        ],
+        "ER.3": [
+          "A2"
+        ],
+        "RR.1": [
+          "A6",
+          "A5",
+          "A4"
+        ]
+      },
+      "normalized": {
+        "FR.1": [
+          "A10",
+          "A2",
+          "A6"
+        ],
+        "FR.2": [
+          "A10",
+          "A5"
+        ],
+        "PR.1": [
+          "A4",
+          "A10"
+        ],
+        "PR.2": [
+          "A4",
+          "A10"
+        ],
+        "PR.3": [
+          "A10",
+          "A4"
+        ],
+        "PR.4": [
+          "A10",
+          "A4",
+          "A9"
+        ],
+        "PR.5": [
+          "A10",
+          "A4"
+        ],
+        "PR.6": [
+          "A10",
+          "A4",
+          "A9"
+        ],
+        "PR.7": [
+          "A10",
+          "A3",
+          "A9"
+        ],
+        "ER.1": [
+          "A4",
+          "A6",
+          "A9"
+        ],
+        "ER.2": [
+          "A1"
+        ],
+        "ER.3": [
+          "A2"
+        ],
+        "RR.1": [
+          "A6",
+          "A5",
+          "A4"
+        ]
+      },
+      "evaluations": {
+        "FR.1": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3. Additionally, the last sentence 'The path is notional and the mechanical linkage is assumed to be designed separately.' is not part of a proper shall statement and reads as a note embedded in the requirement body."
+          },
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "The requirement specifies exact Cartesian coordinates for the origin and destination points, which imposes a specific design solution (a particular geometric configuration) rather than expressing the need in a solution-agnostic manner."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement combines the motion capability with a design assumption statement ('The path is notional and the mechanical linkage is assumed to be designed separately'), which is a separate concern and should not be embedded in the requirement."
+          }
+        ],
+        "FR.2": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement does not specify the coordinates of the destination point or the origin point explicitly; it relies entirely on FR.1 for context, making it incomplete as a standalone requirement."
+          }
+        ],
+        "PR.1": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'FR.1' as an operational context without defining what 'execute FR.1' means in terms of the system state or endpoint being measured, which could lead to multiple interpretations of what is being measured for accuracy."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses the phrasing 'shall execute FR.1 with an accuracy of' rather than the preferred 'The System shall [imperative verb] ...' structure; referencing another requirement ID within a shall statement is non-standard."
+          }
+        ],
+        "PR.2": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'FR.2' as an operational context without defining what 'execute FR.2' means in terms of the system state or endpoint being measured, which could lead to multiple interpretations of what is being measured for accuracy."
+          },
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses the phrasing 'shall execute FR.2 with an accuracy of' rather than the preferred 'The System shall [imperative verb] ...' structure; referencing another requirement ID within a shall statement is non-standard."
+          }
+        ],
+        "PR.3": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3, and also uses 'no more than' which is explicitly discouraged by A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'FR.1' without defining what constitutes the start and end of execution, making the time measurement ambiguous."
+          }
+        ],
+        "PR.4": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3, and also uses 'no less than' which is explicitly discouraged by A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'FR.1' without defining what constitutes the start and end of execution, making the time measurement ambiguous."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "A minimum execution time of 5 seconds is imposed without a clear traceable justification in the ConOps or problem statement; this constraint appears to be an added design constraint not derived from stated stakeholder needs."
+          }
+        ],
+        "PR.5": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3, and also uses 'no more than' which is explicitly discouraged by A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'FR.2' without defining what constitutes the start and end of execution, making the time measurement ambiguous."
+          }
+        ],
+        "PR.6": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3, and also uses 'no less than' which is explicitly discouraged by A10.3."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The requirement references 'FR.2' without defining what constitutes the start and end of execution, making the time measurement ambiguous."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "A minimum execution time of 5 seconds is imposed without a clear traceable justification in the ConOps or problem statement; this constraint appears to be an added design constraint not derived from stated stakeholder needs."
+          }
+        ],
+        "PR.7": [
+          {
+            "criterion": "A10",
+            "name": "Conforming",
+            "explanation": "The requirement uses 'shall be able to' which violates A10.3."
+          },
+          {
+            "criterion": "A3",
+            "name": "Appropriate",
+            "explanation": "The requirement specifies that the system moves the mass 'perpendicular to normal Earth gravity (9.81 m/s\u00b2)' which references an Earth-gravity environment rather than the ISS microgravity environment stated in the project context, making the operational context inconsistent with the system's intended environment."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The ISS operates in a microgravity environment, yet the requirement specifies operation perpendicular to Earth gravity (9.81 m/s\u00b2); this does not accurately reflect the operational environment described in the project context and ConOps."
+          }
+        ],
+        "ER.1": [
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "The term 'low humidity' is a qualitative descriptor without a measurable or quantifiable definition, making the requirement ambiguous."
+          },
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement addresses three distinct environmental characteristics simultaneously: temperature, humidity, and pressure, which should be expressed as separate requirements."
+          },
+          {
+            "criterion": "A9",
+            "name": "Correct",
+            "explanation": "The requirement specifies an 'Earth-like atmosphere' which conflicts with the ISS operational environment described in the project context; while the ISS is pressurized, characterizing it as 'Earth-like' may not accurately represent the ISS cabin environment constraints."
+          }
+        ],
+        "ER.2": [
+          {
+            "criterion": "A1",
+            "name": "No Issues",
+            "explanation": "No issues found with this requirement."
+          }
+        ],
+        "ER.3": [
+          {
+            "criterion": "A2",
+            "name": "Necessary",
+            "explanation": "The requirement prescribes a specific design solution (enclosing lubricated components) rather than expressing the need in a solution-agnostic manner; the underlying need is to prevent lubricant leakage, which could be achieved through other means."
+          }
+        ],
+        "RR.1": [
+          {
+            "criterion": "A6",
+            "name": "Singular",
+            "explanation": "The requirement combines an energy consumption constraint with an assumed operational duration condition, which are two separate characteristics bundled into one statement."
+          },
+          {
+            "criterion": "A5",
+            "name": "Complete",
+            "explanation": "The requirement assumes 'a maximum operational duration of one minute' but PR.3 and PR.5 allow up to 30 seconds per operation with two operations per cycle, making the one-minute assumption inconsistent with other requirements and insufficiently justified within this requirement."
+          },
+          {
+            "criterion": "A4",
+            "name": "Unambiguous",
+            "explanation": "'All operations' is not clearly defined; it is unclear whether this refers to a single cycle (FR.1 + FR.2), multiple cycles, or the full lifetime of operations."
+          }
+        ]
+      },
+      "diagnostics": {
+        "a1_suppressed_true_flags": 0,
+        "a11_diverted_reqs": 0
+      }
+    }
+  ]
+}

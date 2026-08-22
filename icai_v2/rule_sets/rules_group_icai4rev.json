@@ -1,0 +1,14 @@
+[
+  {
+    "criterion": "A10",
+    "criterion_name": "",
+    "rule_text": "Prefer removing 'be able to' in favour of direct imperative form ('shall move' rather than 'shall be able to move'), and apply this A10 correction independently of any separate issues in accompanying notes (such as unresolved TBDs); flag note deficiencies as a distinct, separate concern.",
+    "method": "icai"
+  },
+  {
+    "criterion": "A9",
+    "criterion_name": "",
+    "rule_text": "Do not flag a specific numeric value (tolerance, time, mass, etc.) as unverifiable or untraceable, and do not replace it with an empty placeholder such as '[TBD]', when the value is already explicitly stated in the requirement; if traceability is an open question, prefer adding a TBR marker or annotation note while preserving the original value, since the stated value may be the only recorded source of that information.",
+    "method": "icai"
+  }
+]

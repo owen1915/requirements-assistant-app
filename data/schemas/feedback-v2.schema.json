@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/packers12345/reqassistanttest/schemas/feedback-v2.schema.json",
+  "title": "INCOSE Requirements Review Feedback (v2)",
+  "description": "Reviewer decisions on AI-flagged INCOSE criterion violations, shaped so that generalizable rules can be mined across sessions, reviewers and model versions.",
+  "type": "object",
+  "required": ["format_version", "session", "requirements"],
+  "additionalProperties": false,
+
+  "properties": {
+    "format_version": {
+      "const": "2.0",
+      "description": "Bump on any breaking change so old exports stay parseable."
+    },
+
+    "session": {
+      "type": "object",
+      "description": "Provenance. Without this you cannot tell whether a pattern belongs to the criterion, the model, the document, or the reviewer.",
+      "required": ["session_id", "created_at", "analyzer", "reviewer", "source_document"],
+      "additionalProperties": false,
+      "properties": {
+        "session_id": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "submitted_at": { "type": "string", "format": "date-time" },
+
+        "analyzer": {
+          "type": "object",
+          "description": "Which model produced the findings. Required to compare model versions rather than confounding them.",
+          "required": ["provider", "model", "criteria_set"],
+          "additionalProperties": false,
+          "properties": {
+            "provider": { "type": "string", "enum": ["anthropic", "openai", "ollama"] },
+            "model": { "type": "string", "examples": ["claude-sonnet-4-5", "gpt-4o"] },
+            "criteria_set": {
+              "type": "string",
+              "description": "Version of the criteria definitions used (e.g. incose-gwr-4.0). Rates are not comparable across versions.",
+              "examples": ["incose-gwr-4.0"]
+            },
+            "prompt_version": { "type": "string" },
+            "rag_enhanced": { "type": "boolean" }
+          }
+        },
+
+        "reviewer": {
+          "type": "object",
+          "description": "Anonymous but stable id, so per-reviewer bias can be separated from consensus.",
+          "required": ["reviewer_id", "role"],
+          "additionalProperties": false,
+          "properties": {
+            "reviewer_id": { "type": "string" },
+            "role": { "type": "string", "enum": ["lead", "senior", "junior", "unspecified"] },
+            "domain_expertise": {
+              "type": "string",
+              "description": "Free text, e.g. 'avionics cyber'. Lets you check whether disagreement tracks domain.",
+              "maxLength": 200
+            }
+          }
+        },
+
+        "source_document": {
+          "type": "object",
+          "description": "Which document these requirements came from. A pattern seen in only one document is not yet generalizable.",
+          "required": ["name"],
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string" },
+            "domain": { "type": "string", "examples": ["defense-uas", "medical-device"] },
+            "requirement_count": { "type": "integer", "minimum": 0 },
+            "context_provided": { "type": "boolean" }
+          }
+        }
+      }
+    },
+
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/requirement" }
+    },
+
+    "derived_statistics": {
+      "type": "object",
+      "description": "Convenience aggregates. Always recomputable from `requirements` — treat as cache, never as source of truth.",
+      "additionalProperties": true
+    }
+  },
+
+  "$defs": {
+    "requirement": {
+      "type": "object",
+      "required": ["req_id", "original_text", "decisions"],
+      "additionalProperties": false,
+      "properties": {
+        "req_id": { "type": "string" },
+        "original_text": { "type": "string", "minLength": 1 },
+        "category": {
+          "type": ["string", "null"],
+          "description": "Parenthesised label from the source document, e.g. 'Mission Computer Secure Boot'."
+        },
+        "decisions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/decision" }
+        },
+        "edits": {
+          "type": "array",
+          "description": "Structured, non-overlapping replacements ordered by start offset. Applying them left-to-right to original_text MUST yield final_text. This replaces the v1 splice-by-substring approach, which silently produced duplicated clauses and dropped accepted fixes.",
+          "items": { "$ref": "#/$defs/edit" }
+        },
+        "final_text": {
+          "type": "string",
+          "description": "The agreed requirement after applying `edits`. Validate against edits before using as a training target."
+        },
+        "requirement_notes": { "type": "string" }
+      }
+    },
+
+    "decision": {
+      "type": "object",
+      "description": "One reviewer judgement about one flagged criterion.",
+      "required": ["criterion_id", "finding", "judgement"],
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": { "type": "string", "examples": ["A2", "A4", "A10"] },
+        "criterion_name": { "type": "string", "examples": ["Necessary", "Unambiguous"] },
+
+        "finding": {
+          "type": "object",
+          "description": "What the model asserted. Stored verbatim so the reviewer's judgement can be re-scored later against a different model's output.",
+          "required": ["explanation", "suggested_replacement"],
+          "additionalProperties": false,
+          "properties": {
+            "explanation": { "type": "string" },
+            "affected_text": { "type": "string" },
+            "affected_span": {
+              "type": "array",
+              "description": "[start, end) character offsets into original_text. Removes the ambiguity of matching by substring when a phrase repeats.",
+              "items": { "type": "integer", "minimum": 0 },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "suggested_replacement": { "type": "string" },
+            "suggestion_scope": {
+              "type": "string",
+              "enum": ["span", "whole_requirement"],
+              "description": "Whether the suggestion replaces just the affected span or rewrites the entire requirement. Mixing the two without labelling them is what corrupted v1 final_text."
+            }
+          }
+        },
+
+        "judgement": {
+          "type": "object",
+          "description": "The two questions kept deliberately separate. Collapsing them (as v1 did) makes a low acceptance rate uninterpretable: you cannot tell whether the criterion over-detects or whether its fixes are simply poor.",
+          "required": ["violation_agreed", "fix_action"],
+          "additionalProperties": false,
+          "properties": {
+            "violation_agreed": {
+              "type": "boolean",
+              "description": "Q1 — DETECTION quality. Is this genuinely a violation? false = model false positive."
+            },
+            "fix_action": {
+              "type": "string",
+              "enum": ["accept", "modify", "reject", "not_applicable"],
+              "description": "Q2 — GENERATION quality. Use 'not_applicable' when violation_agreed is false."
+            },
+            "reject_reason": {
+              "type": "string",
+              "enum": [
+                "boilerplate_non_fix",
+                "changes_meaning",
+                "loses_information",
+                "wrong_abstraction_level",
+                "unverifiable_as_written",
+                "stylistic_preference",
+                "other"
+              ],
+              "description": "Required when fix_action is 'reject'. 'boilerplate_non_fix' captures the dominant v1 pattern: appending 'as specified in [stakeholder need reference]', which defers the problem rather than fixing it."
+            },
+            "user_text": {
+              "type": "string",
+              "description": "Required when fix_action is 'modify'. This is the only field carrying reviewer-authored wording, and therefore the highest-value signal in the file."
+            },
+            "confidence": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5,
+              "description": "Reviewer certainty. Lets low-confidence judgements be down-weighted rather than treated as ground truth."
+            },
+            "notes": { "type": "string" },
+            "tags": {
+              "type": "array",
+              "description": "Optional reviewer-supplied labels for recurring patterns, e.g. 'placeholder-deferral'.",
+              "items": { "type": "string" }
+            },
+            "decided_at": { "type": "string", "format": "date-time" },
+            "time_to_decide_ms": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Rough proxy for difficulty. Fast rejects tend to indicate an obviously bad suggestion."
+            }
+          },
+
+          "allOf": [
+            {
+              "if": { "properties": { "fix_action": { "const": "reject" } }, "required": ["fix_action"] },
+              "then": { "required": ["reject_reason"] }
+            },
+            {
+              "if": { "properties": { "fix_action": { "const": "modify" } }, "required": ["fix_action"] },
+              "then": { "required": ["user_text"] }
+            },
+            {
+              "if": { "properties": { "reject_reason": { "const": "other" } }, "required": ["reject_reason"] },
+              "then": { "required": ["notes"] }
+            },
+            {
+              "if": { "properties": { "violation_agreed": { "const": false } }, "required": ["violation_agreed"] },
+              "then": { "properties": { "fix_action": { "const": "not_applicable" } } }
+            }
+          ]
+        }
+      }
+    },
+
+    "edit": {
+      "type": "object",
+      "required": ["start", "end", "replacement", "source"],
+      "additionalProperties": false,
+      "properties": {
+        "start": { "type": "integer", "minimum": 0 },
+        "end": { "type": "integer", "minimum": 0 },
+        "replacement": { "type": "string" },
+        "source": {
+          "type": "string",
+          "enum": ["ai_suggestion", "reviewer_edit"],
+          "description": "Whether the accepted wording came from the model or the reviewer."
+        },
+        "criterion_id": { "type": "string" }
+      }
+    }
+  }
+}

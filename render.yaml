@@ -2,10 +2,13 @@ services:
   - type: web
     name: incose-analyzer
     runtime: python
+    # Installs the repo as a package so `shared` (the evaluator and the INCOSE
+    # rubrics) resolves from ui_prototype/backend without a sys.path trick. Only
+    # the [app] extra: the research components never run on the web dyno.
     buildCommand: |
-      pip install -r backend/requirements.txt &&
-      cd frontend && npm install && npx vite build
-    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+      pip install -e .[app] &&
+      cd ui_prototype/frontend && npm install && npx vite build
+    startCommand: cd ui_prototype/backend && uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
         value: "3.12"

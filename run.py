@@ -1,10 +1,11 @@
 """
-INCOSE Requirements Assistant
+INCOSE Requirements Assistant - the UI prototype.
+
 Run this once to set up, then again to start the app.
 
     python run.py
 
-That's it.
+That's it. For the ICAIv2 Studio, run run_icai_studio.py instead.
 """
 
 import subprocess
@@ -18,8 +19,9 @@ import re
 from pathlib import Path
 
 ROOT     = Path(__file__).parent
-BACKEND  = ROOT / 'backend'
-FRONTEND = ROOT / 'frontend'
+APP      = ROOT / 'ui_prototype'
+BACKEND  = APP / 'backend'
+FRONTEND = APP / 'frontend'
 ENV_FILE    = BACKEND / '.env'
 ENV_EXAMPLE = BACKEND / '.env.example'
 
@@ -43,16 +45,25 @@ def _free_port(port):
                  f'(Get-NetTCPConnection -LocalPort {port} -State Listen -ErrorAction SilentlyContinue).OwningProcess'],
                 capture_output=True, text=True
             )
-            pid = result.stdout.strip()
-            if pid and pid.isdigit():
-                subprocess.run(['taskkill', '/F', '/PID', pid], capture_output=True)
+            # An array when the port has more than one listener — the old
+            # `.isdigit()` guard failed on that and silently skipped the kill,
+            # so the server then died on "address already in use".
+            pids = [p for p in result.stdout.split() if p.isdigit()]
         else:
-            pid = subprocess.check_output(['lsof', '-ti', f':{port}']).decode().strip()
-            if pid:
+            pids = subprocess.check_output(['lsof', '-ti', f':{port}']).decode().split()
+        for pid in pids:
+            if sys.platform == 'win32':
+                subprocess.run(['taskkill', '/F', '/PID', pid], capture_output=True)
+            else:
                 subprocess.run(['kill', '-9', pid], capture_output=True)
         time.sleep(1)
     except Exception:
         pass
+
+    if _port_in_use(port):
+        print(f"  ERROR: port {port} is still held by another process. "
+              f"Close it and try again.")
+        sys.exit(1)
 
 
 # ── Step 1: Auto-install Python packages if missing ──────────────────────────
@@ -69,8 +80,7 @@ def _ensure_pip():
         return
     print("[Setup] Installing Python packages (first time, ~1 min)...")
     r = subprocess.run(
-        [sys.executable, '-m', 'pip', 'install', '-r',
-         str(BACKEND / 'requirements.txt')],
+        [sys.executable, '-m', 'pip', 'install', '-e', f'{ROOT}[app]'],
     )
     if r.returncode != 0:
         print("\nERROR: pip install failed. Check the output above.")

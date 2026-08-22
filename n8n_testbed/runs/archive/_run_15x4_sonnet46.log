@@ -1,0 +1,67 @@
+Running 15 runs x ['PM'] x ['lenient', 'default', 'moderate', 'strict'] on anthropic
+  PM/lenient run 01/15: 32 flags, 5s
+  PM/lenient run 02/15: 32 flags, 6s
+  PM/lenient run 03/15: 32 flags, 5s
+  PM/lenient run 04/15: 33 flags, 5s
+  PM/lenient run 05/15: 32 flags, 5s
+  PM/lenient run 06/15: 32 flags, 5s
+  PM/lenient run 07/15: 31 flags, 5s
+  PM/lenient run 08/15: 31 flags, 9s
+  PM/lenient run 09/15: 31 flags, 5s
+  PM/lenient run 10/15: 34 flags, 5s
+  PM/lenient run 11/15: 33 flags, 6s
+  PM/lenient run 12/15: 32 flags, 6s
+  PM/lenient run 13/15: 32 flags, 6s
+  PM/lenient run 14/15: 31 flags, 6s
+  PM/lenient run 15/15: 32 flags, 6s
+  -> PM_lenient_matrix.xlsx
+  PM/default run 01/15: 44 flags, 7s
+  PM/default run 02/15: 46 flags, 6s
+  PM/default run 03/15: 44 flags, 6s
+  PM/default run 04/15: 46 flags, 6s
+  PM/default run 05/15: 49 flags, 6s
+  PM/default run 06/15: 50 flags, 6s
+  PM/default run 07/15: 50 flags, 6s
+  PM/default run 08/15: 48 flags, 6s
+  PM/default run 09/15: 47 flags, 6s
+  PM/default run 10/15: 49 flags, 6s
+  PM/default run 11/15: 45 flags, 7s
+  PM/default run 12/15: 45 flags, 6s
+  PM/default run 13/15: 44 flags, 7s
+  PM/default run 14/15: 45 flags, 6s
+  PM/default run 15/15: 45 flags, 7s
+  -> PM_default_matrix.xlsx
+  PM/moderate run 01/15: 45 flags, 7s
+  PM/moderate run 02/15: 48 flags, 8s
+  PM/moderate run 03/15: 42 flags, 6s
+  PM/moderate run 04/15: 45 flags, 7s
+  PM/moderate run 05/15: 45 flags, 6s
+  PM/moderate run 06/15: 44 flags, 7s
+  PM/moderate run 07/15: 45 flags, 5s
+  PM/moderate run 08/15: 46 flags, 9s
+  PM/moderate run 09/15: 45 flags, 6s
+  PM/moderate run 10/15: 46 flags, 6s
+  PM/moderate run 11/15: 45 flags, 5s
+  PM/moderate run 12/15: 47 flags, 5s
+  PM/moderate run 13/15: 46 flags, 5s
+  PM/moderate run 14/15: 46 flags, 6s
+  PM/moderate run 15/15: 45 flags, 6s
+  -> PM_moderate_matrix.xlsx
+  PM/strict run 01/15: 48 flags, 7s
+  PM/strict run 02/15: 47 flags, 5s
+  PM/strict run 03/15: 45 flags, 6s
+  PM/strict run 04/15: 44 flags, 7s
+  PM/strict run 05/15: 46 flags, 7s
+  PM/strict run 06/15: 46 flags, 5s
+  PM/strict run 07/15: 48 flags, 6s
+  PM/strict run 08/15: 43 flags, 5s
+  PM/strict run 09/15: 45 flags, 5s
+  PM/strict run 10/15: 45 flags, 9s
+  PM/strict run 11/15: 46 flags, 7s
+  PM/strict run 12/15: 46 flags, 6s
+  PM/strict run 13/15: 48 flags, 16s
+  PM/strict run 14/15: 48 flags, 8s
+  PM/strict run 15/15: 46 flags, 6s
+  -> PM_strict_matrix.xlsx
+
+Done. Matrices + GT + raw evaluations in evaluation/outputs/

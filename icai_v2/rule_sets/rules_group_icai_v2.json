@@ -1,0 +1,50 @@
+[
+  {
+    "criterion": "A9",
+    "criterion_name": "",
+    "rule_text": "Prefer: Requirements cite standards and specifications rather than restating numerical values inline.",
+    "method": "icai_v2",
+    "evidence": [],
+    "support_count": 3,
+    "direction": "",
+    "sub_rule_id": "",
+    "extra": {
+      "net": 15,
+      "relevance": 0.167,
+      "accuracy": 0.941,
+      "correct": 16,
+      "incorrect": 1,
+      "seeds_found": 3,
+      "variants": [
+        "Prefer active, direct language over negative constructions in requirements statements.",
+        "Prefer active, direct language: 'minimum of' is clearer and more concise than negated comparatives",
+        "Prefer positive statements: 'within X seconds' is clearer than double-negative phrasing.",
+        "Prefer: Requirements cite standards and specifications rather than restating numerical values inline."
+      ]
+    }
+  },
+  {
+    "criterion": "A10",
+    "criterion_name": "",
+    "rule_text": "Prefer active voice 'shall move' over passive 'shall be able to move'.",
+    "method": "icai_v2",
+    "evidence": [],
+    "support_count": 6,
+    "direction": "",
+    "sub_rule_id": "",
+    "extra": {
+      "net": 14,
+      "relevance": 0.275,
+      "accuracy": 0.75,
+      "correct": 21,
+      "incorrect": 7,
+      "seeds_found": 3,
+      "variants": [
+        "Prefer active voice 'shall move' over passive 'shall be able to move'.",
+        "Prefer active voice: 'shall use maximum' is clearer than 'shall not use more'",
+        "Prefer imperative 'shall move' over 'shall be able to move' for clarity.",
+        "Prefer: Active voice 'shall move' is clearer and more direct than 'shall be able to move'"
+      ]
+    }
+  }
+]

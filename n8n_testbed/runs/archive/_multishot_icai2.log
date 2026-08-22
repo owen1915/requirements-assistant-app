@@ -1,0 +1,25 @@
+Running 10 runs x ['PM'] x ['baseline', 'icai2'] on anthropic
+  PM/baseline run 01/10: 51 flags, 6s
+  PM/baseline run 02/10: 51 flags, 6s
+  PM/baseline run 03/10: 49 flags, 5s
+  PM/baseline run 04/10: 49 flags, 6s
+  PM/baseline run 05/10: 52 flags, 5s
+  PM/baseline run 06/10: 51 flags, 5s
+  PM/baseline run 07/10: 49 flags, 5s
+  PM/baseline run 08/10: 49 flags, 5s
+  PM/baseline run 09/10: 49 flags, 5s
+  PM/baseline run 10/10: 49 flags, 6s
+  -> PM_baseline_matrix.xlsx
+  PM/icai2 run 01/10: 47 flags, 6s
+  PM/icai2 run 02/10: 47 flags, 5s
+  PM/icai2 run 03/10: 47 flags, 5s
+  PM/icai2 run 04/10: 50 flags, 6s
+  PM/icai2 run 05/10: 48 flags, 5s
+  PM/icai2 run 06/10: 50 flags, 5s
+  PM/icai2 run 07/10: 49 flags, 5s
+  PM/icai2 run 08/10: 48 flags, 5s
+  PM/icai2 run 09/10: 50 flags, 5s
+  PM/icai2 run 10/10: 46 flags, 5s
+  -> PM_icai2_matrix.xlsx
+
+Done. Matrices + GT + raw evaluations in evaluation/outputs/
