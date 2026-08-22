@@ -5,7 +5,8 @@ Run this once to set up, then again to start the app.
 
     python run.py
 
-That's it. For the ICAIv2 Studio, run run_icai_studio.py instead.
+That's it. The ICAIv2 Studio and the rest of the research tooling live in the
+separate incose-research repository.
 """
 
 import subprocess
@@ -19,9 +20,8 @@ import re
 from pathlib import Path
 
 ROOT     = Path(__file__).parent
-APP      = ROOT / 'ui_prototype'
-BACKEND  = APP / 'backend'
-FRONTEND = APP / 'frontend'
+BACKEND  = ROOT / 'backend'
+FRONTEND = ROOT / 'frontend'
 ENV_FILE    = BACKEND / '.env'
 ENV_EXAMPLE = BACKEND / '.env.example'
 

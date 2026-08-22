@@ -8,39 +8,18 @@ venv/
 *.egg-info/
 build/
 
-# Environment
+# Environment — the operator's provider keys live here locally.
 .env
-ui_prototype/backend/.env
+backend/.env
 
 # Node
 node_modules/
 
-# Built frontends
-ui_prototype/frontend/dist/
-icai_v2/app/frontend/dist/
-
-# Regenerable artefacts: plots, PDFs and scratch rule sets. Every one of these is
-# reproducible from the run store below with no API calls, so they stay out.
-outputs/
-
-# ---------------------------------------------------------------------------
-# NOT ignored, despite looking like output.
-#
-# n8n_testbed/runs holds the prediction matrices and raw dumps behind the
-# published figures - 100 whole-set LLM calls per config, real money, and the
-# figures cannot be regenerated without them. icai_v2/rule_sets holds the
-# extracted constitutions, which are pipeline products that become testbed
-# INPUTS (inject.load_sme_rules reads them). Both are versioned deliberately.
-#
-# The previous blanket `outputs/*` rule is why none of this was ever committed.
-# ---------------------------------------------------------------------------
-!n8n_testbed/runs/
-!icai_v2/rule_sets/
-!reviewer_reliability/runs/
-!docs/figures/
+# Built frontend (Render rebuilds it during deploy)
+frontend/dist/
 
 # Knowledge base (generated at runtime)
-ui_prototype/backend/knowledge_base/
+backend/knowledge_base/
 
 # Logs
 backend.log
@@ -58,6 +37,6 @@ Thumbs.db
 *.ps1
 
 # Playwright artifacts
-ui_prototype/frontend/test-results/
-ui_prototype/frontend/playwright-report/
-ui_prototype/frontend/e2e/fixtures/
+frontend/test-results/
+frontend/playwright-report/
+frontend/e2e/fixtures/

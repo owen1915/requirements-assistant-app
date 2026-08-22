@@ -3,15 +3,15 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "requirements-assistant"
+name = "incose-assistant-app"
 version = "1.0.0"
-description = "INCOSE requirements assistant: UI prototype, n8n testbed, reviewer reliability, and the ICAIv2 rule pipeline"
+description = "INCOSE requirements assistant: the deployed FastAPI + React prototype"
 requires-python = ">=3.10"
 
-# The four components import a common core (`shared`). Before the split that
-# worked only by accident — every tool was launched from `backend/`, which put
-# the evaluator on sys.path. Declaring real packages here is what replaces that:
-# `pip install -e .` makes every import below resolve from any working directory.
+# Installing the repo as a package is what lets `backend/main.py` do
+# `from shared.evaluator import ...` regardless of the working directory it is
+# launched from. Render's start command cds into backend/, so without this the
+# import would only resolve by accident.
 dependencies = [
     "anthropic>=0.86.0",
     "openai>=1.30.0",
@@ -20,8 +20,8 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# The shipped prototype. Kept separate so a research-only checkout does not drag
-# in the web stack, and so Render installs exactly this set.
+# The web stack. Kept as an extra so the package can be installed for its
+# evaluator alone (which is how the research repo consumes an equivalent copy).
 app = [
     "fastapi==0.115.0",
     "uvicorn==0.30.6",
@@ -30,25 +30,9 @@ app = [
     "rdflib==7.6.0",
     "pyshacl==0.31.0",
 ]
-# Scoring, plotting and the ICAIv2 clustering step.
-research = [
-    "pandas>=2.0",
-    "numpy>=1.24",
-    "matplotlib>=3.8",
-    "scikit-learn>=1.3",
-]
 
 [tool.setuptools]
-packages = [
-    "shared",
-    "n8n_testbed",
-    "n8n_testbed.plots",
-    "reviewer_reliability",
-    "icai_v2",
-    "icai_v2.pipeline",
-    "icai_v2.app",
-    "icai_v2.app.backend",
-]
+packages = ["shared"]
 
 [tool.setuptools.package-data]
 shared = ["rubrics/*.json"]

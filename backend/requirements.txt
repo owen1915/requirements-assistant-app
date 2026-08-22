@@ -1,0 +1,9 @@
+# Dependencies now live in the repo-root pyproject.toml, so the app and the
+# research components cannot drift onto different versions of the same libraries.
+#
+#     pip install -e .[app]        # this app
+#     pip install -e .[app,research]   # everything
+#
+# This file is kept only so `pip install -r backend/requirements.txt`
+# still works for anyone following an older instruction.
+-e ..[app]
