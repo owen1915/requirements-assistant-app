@@ -1,7 +1,14 @@
 fastapi==0.115.0
 uvicorn==0.30.6
 python-multipart==0.0.9
-anthropic>=0.86.0
+# PINNED, not >=. A newer SDK than this rejects `temperature` on
+# messages.create(), which is passed on every analysis call in ai_analyzer.py.
+# The resulting TypeError is caught per requirement and recorded as "could not
+# evaluate", which the counter reads as zero violations — so the whole run
+# reports "0 criteria violated" and looks like a clean pass. Verified: 0.94.0
+# accepts temperature and returns violations correctly. Do not loosen this
+# without running an analysis end to end afterwards.
+anthropic==0.94.0
 openai>=1.30.0
 python-docx==1.1.2
 python-dotenv==1.0.1
