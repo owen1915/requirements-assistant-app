@@ -19,22 +19,29 @@ services:
       # server never uses.
       - key: PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD
         value: "1"
+      # Without this, Python block-buffers stdout when it is a pipe, which is
+      # what Render gives it. The startup checks below use print(), so an
+      # operator who forgot ACCESS_CODE would never see the warning that their
+      # URL is open and spending their credits — the buffer simply never
+      # flushes. Verified: the warnings are invisible without it.
+      - key: PYTHONUNBUFFERED
+        value: "1"
       # Which provider the app defaults to. Must be one the keys below cover.
       - key: AI_PROVIDER
         value: anthropic
       # Set these in the Render dashboard (Environment tab) — sync: false keeps
       # the secret out of the repo while still requiring it at deploy time.
-      # End users never enter a key; all analysis runs on these.
       #
-      # These three go away when the bring-your-own-key change lands: the user
-      # will supply their own key in the browser and the deployment will hold
-      # no credentials. Until then this deploys with the same auth model as
-      # before the repo split, so the layout change can be verified on its own.
+      # One operator key serves every reviewer: nobody using the app enters or
+      # sees a key. Only the provider named by AI_PROVIDER strictly needs one;
+      # supplying the other just makes it selectable in the UI, since
+      # /api/config offers only the providers a key exists for.
       - key: ANTHROPIC_API_KEY
         sync: false
       - key: OPENAI_API_KEY
         sync: false
-      # Shared code required to use the app. Without it the URL is open to
-      # anyone who finds it, spending the keys above. Also set in the dashboard.
+      # Because analysis spends the keys above, this is the only thing stopping
+      # anyone who finds the URL from spending them. Set it in the dashboard and
+      # hand it to the reviewers along with their invite link.
       - key: ACCESS_CODE
         sync: false

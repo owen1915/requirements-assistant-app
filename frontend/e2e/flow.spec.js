@@ -4,7 +4,10 @@ import fs from 'fs'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const SAMPLES = path.resolve(__dirname, '../../../data/samples')
+// Two hops, not three: e2e/ sits at frontend/e2e now that the app is its own
+// repository, so the repo root is one level nearer than it was under
+// ui_prototype/frontend/e2e.
+const SAMPLES = path.resolve(__dirname, '../../data/samples')
 const FIXTURE = path.resolve(__dirname, 'fixtures')
 
 const ACCESS_CODE = process.env.E2E_ACCESS_CODE || '1234'
