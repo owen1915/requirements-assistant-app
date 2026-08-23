@@ -1,200 +1,181 @@
 # INCOSE Requirements Assistant
 
-Automatically reviews engineering requirements against the **INCOSE Guide to Writing Requirements** (A2–A10 criteria). Upload a requirements document, get a detailed violation report, review each finding, and export a corrected Word document.
+This app reads a list of engineering requirements and checks each one against seven INCOSE quality criteria (A2, A3, A4, A5, A6, A9, A10). It uses Claude to do the checking. A reviewer can then accept or fix each problem it finds and download a corrected Word document.
 
-Works with **Anthropic (Claude)** or **OpenAI (GPT-4o)**.
+This README explains **how to put the app online using Render**. Render is a hosting service. It takes the code from GitHub, builds it, and gives you a web address anyone can open.
 
----
-
-> ⚠️ **IMPORTANT — Do not enter sensitive or classified data.** This is a prototype tool. Do not upload requirements, context files, or any other text that contains sensitive, proprietary, export-controlled, or classified information. All requirements and context text are transmitted to a third-party AI provider (Anthropic or OpenAI) for analysis and are subject to their respective data handling policies.
+> ⚠️ **Warning:** the text people upload gets sent to Anthropic for analysis. Do not upload anything sensitive, proprietary, export-controlled, or classified.
 
 ---
 
-## What You Need
+## Before you start
 
-- An API key from Anthropic or OpenAI (instructions below)
-- Python and Node.js installed on your computer (instructions below)
-- Visual Studio Code
+You need three things:
 
----
+1. **A GitHub account** — this is where the code lives.
+2. **A Render account** — sign up free at https://render.com and connect it to GitHub.
+3. **An Anthropic API key with credit on it** — this is what pays for the analysis.
 
-## Step 1 — Install Python and Node.js (One Time Only)
-
-### Python
-
-1. Go to **https://www.python.org/downloads/**
-2. Click the large **"Download Python 3.x.x"** button
-3. Run the installer
-4. **Critical — on the very first screen:** check the box **"Add Python to PATH"** before clicking anything else
-
-   > If you miss this step the app will not work. Uninstall Python and reinstall if needed.
-
-5. Click **Install Now**
-
-### Node.js
-
-1. Go to **https://nodejs.org/en**
-2. Click the **"Get Node.js®"** button
-3. Select the **LTS** version and download the installer for your operating system
-4. Run the installer with all default options
+The API key is yours. Every analysis anyone runs on your site is charged to your account, so keep the key private.
 
 ---
 
-## Step 2 — Get an API Key
+## Step 1 — Put the code in your own GitHub account
 
-You need one key — pick either Anthropic or OpenAI.
+Open this repository on GitHub and click **Fork**. That makes your own copy.
 
-### Anthropic (Claude) — Recommended
-1. Go to **https://console.anthropic.com/** and create an account
-2. Click **API Keys** in the sidebar → **Create Key**
-3. Copy the key — it starts with `sk-ant-`
-4. Add at least $5 in credits at **https://console.anthropic.com/settings/billing**
-
-### OpenAI (GPT-4o)
-1. Go to **https://platform.openai.com/** and create an account
-2. Go to **https://platform.openai.com/api-keys** → **Create new secret key**
-3. Copy the key — it starts with `sk-`
-4. Add at least $5 in credits at **https://platform.openai.com/account/billing**
-
-> Keep your key private. Do not share it or paste it into any document.
+Do this even if you have access to the original. Render needs to read the code, and if you use someone else's copy they could change or delete it without telling you.
 
 ---
 
-## Step 3 — Download the Project
+## Step 2 — Get an Anthropic API key
 
-Go to the GitHub page for this project. Click the green **Code** button, then **Download ZIP**.
+1. Go to https://console.anthropic.com and make an account.
+2. Click **API Keys**, then **Create Key**.
+3. Copy the key. It starts with `sk-ant-`. Save it somewhere safe — the site will not show it to you again.
+4. Go to **Settings → Billing** and add credit. $5 is enough to try it out.
 
-Unzip the downloaded file anywhere on your computer (Desktop is fine).
-
----
-
-## Step 4 — Open in Visual Studio Code
-
-If you don't have Visual Studio Code:
-1. Go to **https://code.visualstudio.com/**
-2. Click **Download for Windows** and install it
-
-Open Visual Studio Code. Go to **File → Open Folder** and select the unzipped project folder.
+While you are there, set a **monthly spending limit**. The app has no way to stop people using it too much, so this limit is your safety net.
 
 ---
 
-## Step 5 — Start the App
+## Step 3 — Create the service on Render
 
-In VSCode, open a terminal: **Terminal → New Terminal**
+In Render, click **New +**, then **Web Service**. Pick your forked repository.
 
-> **Windows only — run this once before anything else:**
-> If you see an error saying "running scripts is disabled on this system", paste this into the terminal and press Enter:
-> ```
-> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-> ```
-> Then continue below.
+Now fill in the form. Most of it you can leave alone. These are the boxes that matter:
 
-First, navigate into the project folder:
+| Box | What to put in it |
+|---|---|
+| **Name** | `incose-analyzer`, or any name you like. This becomes your web address, so it has to be unique. If the name is taken, add a number. |
+| **Language** | **Python 3**. Not Node, not Docker. |
+| **Branch** | `main` |
+| **Region** | Whichever one is closest to the people who will use it. You cannot change this later. |
+| **Root Directory** | Leave this **empty**. |
+| **Instance Type** | `Free` is fine for testing. See the note about the free plan below. |
 
-```
-cd .\Requirements-Assistant-main\
-```
+Then find the two command boxes and paste these in exactly:
 
-Then run:
-
-```
-python3 run.py
-```
-
-**The first time you run this it will:**
-1. Install all required packages automatically (takes 2–5 minutes)
-2. Create a config file called `backend/.env`
-3. Stop and ask you to add your API key to that file
-
-**Add your API key:**
-
-The file `backend/.env` will appear in the left file panel in VSCode under the `backend` folder. Click it to open it. It looks like this:
+**Build Command**
 
 ```
-AI_PROVIDER=anthropic
-ANTHROPIC_API_KEY=sk-ant-YOUR-KEY-HERE
-OPENAI_API_KEY=sk-YOUR-KEY-HERE
+pip install -r backend/requirements.txt && cd frontend && npm install && npx vite build
 ```
 
-Replace the placeholder with your real key and set `AI_PROVIDER` to match:
+**Start Command**
 
 ```
-AI_PROVIDER=anthropic
-ANTHROPIC_API_KEY=sk-ant-abc123...
+cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
 ```
 
-Press **Ctrl+S** to save. Then run the command again:
-
-```
-python3 run.py
-```
-
-Your browser will open automatically at **http://localhost:3001**.
-
-> To stop the app, press **Ctrl+C** in the terminal.
+> These two commands must match what is in the repository. If you ever change the folder layout, change these too. Getting them out of step is the single most common reason a deploy breaks.
 
 ---
 
-## How to Use the App
+## Step 4 — Add the settings
 
-**1. Choose your AI provider**
-Click Anthropic (Claude) or OpenAI (GPT-4o). If your key is already in `backend/.env` you will see a green confirmation and do not need to enter it again.
+Still on the same page, find the **Environment Variables** section. Add each of these. Click "Add Environment Variable" for each new one.
 
-**2. Upload your requirements**
-Click **Choose File** and select a `.txt` file with one requirement per line. Supported formats:
+| Name | Value | What it does |
+|---|---|---|
+| `ANTHROPIC_API_KEY` | your `sk-ant-...` key | Pays for the analysis. Required. |
+| `ACCESS_CODE` | a password you invent, like `orion-review-2026` | Stops strangers from using your site and spending your money. **Do not skip this.** |
+| `AI_PROVIDER` | `anthropic` | Tells the app to use Claude. |
+| `PYTHON_VERSION` | `3.12` | Which Python to use. |
+| `NODE_VERSION` | `20` | Which Node to use. Also makes Node available when building. |
+| `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD` | `1` | Stops the build downloading 150 MB of test browsers it will never use. |
+| `PYTHONUNBUFFERED` | `1` | Makes the app's messages show up in the Render log. Without it they get held in memory and you never see them. |
 
-```
-REQ-001: The system shall display GPS coordinates within 1 second.
-REQ-002: The system shall alert the operator within 500 ms of a sensor failure.
-```
-```
-1. The system shall display GPS coordinates within 1 second.
-2. The system shall alert the operator within 500 ms of a sensor failure.
-```
-```
-MR-C1.1: The system shall identify and tag potential targets using EO/IR sensor data.
-MR-C1.2: The system shall transmit target coordinates within 500 ms.
-```
-
-**3. Upload context (optional but recommended)**
-A `.txt` file describing the system. Significantly improves analysis quality. Example:
-
-```
-This system is an autonomous UAS designed for surveillance and reconnaissance
-operating at altitudes up to 40,000 feet.
-```
-
-**4. Click Upload & Analyze**
-Takes 15–60 seconds depending on how many requirements you have.
-
-**5. Review results**
-Each requirement shows which A2–A10 criteria it violates. For each violation choose:
-- **Accept** — apply the suggested fix
-- **Reject** — keep the original
-- **Modify** — write your own correction
-
-**6. Export**
-Click **Submit** to download a corrected Word document (`.docx`).
-
+Now click **Create Web Service**. The first build takes about 5 minutes.
 
 ---
 
-## Troubleshooting
+## Step 5 — Check that it worked
 
-**"python is not recognized"**
-Python was not added to PATH during install. Uninstall Python from Control Panel, re-download from python.org, and check "Add Python to PATH" on the first installer screen.
+Watch the log while it builds. You are looking for these lines:
 
-**"npm is not recognized"**
-Node.js did not install correctly. Re-download from nodejs.org and run the installer again.
+```
+==> Build successful 🎉
+==> Your service is live 🎉
+==> Available at your primary URL https://your-name.onrender.com
+```
 
-**Browser opens but "Request failed" appears**
-The backend server did not start. Look at the VSCode terminal for error messages. Most common cause: `backend/.env` is missing or has the wrong key.
+Then do these three checks:
 
-**"No API key provided" error**
-Open `backend/.env` in VSCode and confirm your key is filled in and `AI_PROVIDER` matches the key you added (`anthropic` or `openai`).
+**1. Check the log for warnings.** If you see `WARNING: ACCESS_CODE is not set`, your site is open to anyone. Go back and add it.
 
-**"Analysis failed" for all requirements**
-Your API key account is out of credits. Log in to console.anthropic.com or platform.openai.com and add billing credits.
+**2. Open your web address.** You should see a box asking for the access code. Type the code you invented. It should let you in.
 
-**App is slow**
-Normal — each requirement makes one AI API call. A 10-requirement file takes 15–30 seconds. A 50-requirement file may take 2–3 minutes.
+**3. Run a real test.** Upload the file `samples/sample_requirements.txt` from this repository and click **Upload & Analyze**.
+
+You should get a message like *"Done! 8 criteria violated across 10 requirements."*
+
+**If it says "0 criteria violated", something is wrong.** Read the next section.
+
+---
+
+## If something goes wrong
+
+**It says "0 criteria violated" for every requirement**
+
+This almost never means your requirements are perfect. It usually means every analysis failed and the app counted the failures as passes.
+
+The usual cause is the Anthropic library updating to a version the code does not work with. Check `backend/requirements.txt` still says:
+
+```
+anthropic==0.94.0
+```
+
+with `==` and not `>=`. If someone changed it, change it back and deploy again.
+
+**Build fails: "does not appear to be a Python project"**
+
+Your Build Command is wrong. It should be the `pip install -r backend/requirements.txt ...` line from Step 3. This error means it is trying to install a Python package from a folder that has none.
+
+**Build works, but the service crashes straight away**
+
+Your Start Command is wrong. It should be the `cd backend && uvicorn ...` line from Step 3.
+
+**"A valid access code is required"**
+
+You typed the code wrong. After 10 wrong tries the site blocks you for 15 minutes.
+
+**"The analysis service is not configured"**
+
+`ANTHROPIC_API_KEY` is missing or empty in the Environment Variables.
+
+**"Analysis failed" on everything**
+
+Your key is fine but your Anthropic account has run out of credit. Add more at https://console.anthropic.com.
+
+---
+
+## Things to know
+
+**Do not change `anthropic==0.94.0` to a newer version** without testing an analysis afterwards. Newer versions of that library reject a setting the code uses. When that happens the app does not crash — it quietly reports every requirement as clean, which is much worse than an error message.
+
+**The free plan goes to sleep** after 15 minutes of no use. The next visitor waits about a minute for it to wake up. The app also keeps everything in memory, so a sleep in the middle of a review can lose the work. If real people are using it, pay for the cheapest plan.
+
+**The access code is one shared password.** Everybody uses the same one. It does not track who did what and it does not limit spending. If it leaks, change it in the Environment Variables and tell your users the new one.
+
+**To update the app**, push your changes to the `main` branch on GitHub. Render rebuilds automatically. If the build fails, the old version stays online, so your site does not go down — it just stops getting updates.
+
+---
+
+## Running it on your own computer (optional)
+
+You only need this if you want to change the code. You need Python and Node.js installed.
+
+```
+python run.py
+```
+
+The first time, it installs everything and creates a file called `backend/.env`. Open that file, put your API key in it, save, and run `python run.py` again. The app opens at http://localhost:3001.
+
+Leave `ACCESS_CODE` empty in that file and it will not ask you for a code.
+
+---
+
+## The research work
+
+The rule-extraction pipeline, the evaluation testbed, and the reviewer scoring live in a separate repository called `incose-research`. None of it is needed to run this app.
