@@ -1,6 +1,6 @@
 # INCOSE Requirements Assistant
 
-Reviews engineering requirements against the **INCOSE Guide to Writing Requirements**, then lets one or more subject-matter experts accept, reject or rewrite each finding and export a corrected document.
+Reviews engineering requirements against the **INCOSE Guide to Writing Requirements**, then lets a subject-matter expert accept, reject or rewrite each finding and export a corrected document.
 
 Seven criteria are evaluated:
 
@@ -45,7 +45,7 @@ Analysis runs on a single key held by the operator, so cost and provider are the
 
 4. **Click Upload & Analyze.** Roughly 15–60 seconds for ten requirements. If the operator configured more than one provider you will see a model selector; with one provider there is nothing to choose and no selector appears.
 
-5. **Choose a path.** *Review Solo* to work alone, or *Set Up Multi-Reviewer* to invite others.
+5. **Click Review Solo.**
 
 6. **Review each finding.** Every flagged requirement lists the criteria it violates. Per violation:
    - **Accept** — take the suggested fix
@@ -56,11 +56,8 @@ Analysis runs on a single key held by the operator, so cost and provider are the
 
 7. **Export.** The *Analysis Complete* page offers **Download Report (.docx)** — the corrected document — and **Download Feedback (.json)** — your decisions, which is the file the research pipeline consumes.
 
-### Multi-reviewer
-
-From *Multi-Reviewer Setup*, add reviewers and invite them. Each gets their own review link and works independently; the **Consensus Dashboard** shows where they agreed, where they split, and lets you resolve or override each disagreement.
-
-Invited reviewers need the same access code. They do not need a key.
+> The *Set Up Multi-Reviewer* button on the same screen leads to an incomplete
+> feature. Use *Review Solo*.
 
 ---
 
@@ -131,7 +128,7 @@ Leave `ACCESS_CODE` empty locally and the gate is transparent.
 ### Layout
 
 ```
-backend/     FastAPI app: analysis, feedback, consensus, document export
+backend/     FastAPI app: analysis, feedback, document export
 frontend/    React SPA (Vite); built to frontend/dist and served by the backend
 shared/      the evaluator and the INCOSE rubric it loads
 data/samples/  example requirement and context files
