@@ -251,6 +251,12 @@ def analyze_requirement(requirement: Dict, context: str, provider: str = None, a
 
 
 def _error_result(requirement: Dict, error_msg: str) -> Dict:
+    # Log it. A failed requirement is recorded as "every criterion satisfied"
+    # so the review UI still has a complete row to render, which means a total
+    # failure is indistinguishable from a clean pass by looking at the counts
+    # alone — the caller has to check `error`. Printing here is what makes the
+    # cause visible in the server log instead of only in the stored analysis.
+    print(f"ANALYSIS ERROR [{requirement.get('id', '?')}]: {error_msg}")
     return {
         "req_id": requirement["id"],
         "original_text": requirement["text"],

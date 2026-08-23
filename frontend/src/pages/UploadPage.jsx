@@ -103,8 +103,17 @@ export default function UploadPage() {
       })
 
       setBarPct(100)
-      const violated = res.data.violations_count
-      setProgress(`Done! ${violated} criteria violated across ${res.data.requirements_count} requirements.`)
+      const { violations_count: violated, requirements_count: total,
+              failed_count: failed, first_error: firstError } = res.data
+
+      // A failed requirement is stored as "all criteria satisfied", so it is
+      // counted as clean. Saying only "0 violated" after a partial failure
+      // would tell the reviewer those rows passed when they were never looked
+      // at — call the gap out instead.
+      if (failed > 0) {
+        setError(`${failed} of ${total} requirements could not be analysed and are shown as having no issues. First error: ${firstError}`)
+      }
+      setProgress(`Done! ${violated} criteria violated across ${total - (failed || 0)} analysed requirements.`)
       setTimeout(() => setSessionResult(res.data.session_id), 400)
     } catch (err) {
       const msg = err.response?.data?.detail || err.message || 'Upload failed'
