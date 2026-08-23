@@ -61,38 +61,133 @@ Analysis runs on a single key held by the operator, so cost and provider are the
 
 ---
 
-## For the operator — deploying
+## Deploying your own instance
 
-Hosted on [Render](https://render.com) as a single web service. FastAPI serves both the API and the built React bundle, so there is no separate static site.
+This section is the handover guide: everything needed to take this repository and stand up a production URL on your own Render account, owned and paid for by you.
 
-**Build command**
+### What you are taking on
 
-```bash
-pip install -e .[app] && cd frontend && npm install && npx vite build
-```
+| | |
+|---|---|
+| **A Render account** | The free tier works. It sleeps after 15 minutes idle, and the first request after that takes ~50 s to wake. Because sessions are held in memory, a sleep mid-review loses server-side state. For anything with real users, the cheapest paid instance avoids both problems. |
+| **An AI provider account** | Analysis is billed to **your** key. Budget a few dollars for a pilot — roughly one model call per requirement. |
+| **The access code** | You choose it and distribute it. It is the only thing stopping a stranger who finds the URL from spending your credits. |
 
-**Start command**
+You will get a **new URL** (`https://<service-name>.onrender.com`). The previous owner's URL belongs to their workspace and stops working when they delete their service, so every reviewer has to be given the new address. If keeping the existing URL matters, see [Transferring the existing service](#transferring-the-existing-service-instead) instead of deploying fresh.
 
-```bash
-cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
-```
+### Step 1 — Get the code onto an account you control
 
-> These are also in [`render.yaml`](render.yaml), but Render only applies that file automatically to Blueprint-managed services. A service created by hand uses whatever is in its dashboard, so if you created it that way, set both there and keep them in step with the file.
+Either fork this repository, or have it transferred to you on GitHub. Render needs to read it, so a fork you own is the simplest arrangement. Deploying from someone else's repository works, but you cannot merge changes and the original owner can delete it out from under you.
 
-**Environment variables** — set the secrets in the dashboard (Environment tab), never in the repo:
+### Step 2 — Get an API key
 
-| Variable | Required | Purpose |
+Anthropic is the default and the better-tested path.
+
+1. Create an account at **https://console.anthropic.com**
+2. **API Keys → Create Key**, copy the value (it starts with `sk-ant-`)
+3. Add credit under **Settings → Billing** — $5 is plenty to start
+4. Consider setting a monthly spend limit on the same page. The access code does not cap usage, so a provider-side limit is your real backstop.
+
+OpenAI is optional. Supplying a second key only adds a model selector to the UI.
+
+### Step 3 — Create the Render service
+
+There are two routes. **The Blueprint route is recommended** — it reads [`render.yaml`](render.yaml) from the repository, so the build and start commands cannot drift out of step with the code, which is a failure this project has already hit once.
+
+#### Route A — Blueprint (recommended)
+
+1. In Render: **New + → Blueprint**
+2. Connect your GitHub account and pick the repository
+3. Render reads `render.yaml` and shows a service named `incose-analyzer`
+4. It will prompt for the three values marked `sync: false` — `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `ACCESS_CODE`. Fill in the first and third; leave `OPENAI_API_KEY` blank unless you have one.
+5. **Apply**
+
+Everything else — build command, start command, Python and Node versions — comes from the file. Skip to Step 5.
+
+#### Route B — Web Service by hand
+
+**New + → Web Service**, then fill the form. Field names shift occasionally as Render updates its UI; match on meaning where the wording differs.
+
+| Field | Value | Notes |
 |---|---|---|
-| `ACCESS_CODE` | **yes, in production** | The shared code you hand to reviewers. Without it the URL is open to anyone who finds it, spending your credits. |
-| `ANTHROPIC_API_KEY` | one key required | Analysis runs on this. |
-| `OPENAI_API_KEY` | optional | Supplying it adds GPT-4o to the model selector; omit it and the UI offers only Claude. |
-| `AI_PROVIDER` | `anthropic` | Which provider the app opens on. Must be one you supplied a key for. |
-| `PYTHONUNBUFFERED` | `1` | Python block-buffers stdout when it is a pipe, which is what Render gives it. The startup warnings below are `print()` calls and never reach the log without this. |
-| `PYTHON_VERSION` | `3.12` | |
-| `NODE_VERSION` | `20` | |
-| `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD` | `1` | The build runs a plain `npm install` (vite is itself a dev dependency, so `--omit=dev` is not an option), which would otherwise pull ~150 MB of browsers the server never uses. |
+| **Source Code** | Your fork of this repository | Connect the GitHub account that owns it |
+| **Name** | `incose-analyzer` | Becomes the URL: `https://incose-analyzer.onrender.com`. Must be globally unique, so expect to add a suffix. |
+| **Project** | *(optional)* | Organisational only |
+| **Language** | `Python 3` | Not Node, and not Docker — the Python runtime installs Node as well once `NODE_VERSION` is set |
+| **Branch** | `main` | |
+| **Region** | Nearest your reviewers | Cannot be changed later without recreating the service |
+| **Root Directory** | *(leave blank)* | The app is at the repository root |
+| **Build Command** | `pip install -e .[app] && cd frontend && npm install && npx vite build` | Installs the Python package, then builds the React bundle the backend serves |
+| **Start Command** | `cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT` | `$PORT` is supplied by Render; do not hard-code it |
+| **Instance Type** | `Free` to trial, `Starter` for real use | See the sleep caveat above |
+| **Environment Variables** | See Step 4 | |
 
-At startup the server warns if `ACCESS_CODE` is unset or if no provider key is configured. Check the Render log after the first deploy — a deployment that boots cleanly but silently serves an open, paid endpoint is the failure worth catching early.
+Under **Advanced**:
+
+| Field | Value | Notes |
+|---|---|---|
+| **Health Check Path** | `/api` | Returns JSON and is exempt from the access code, so the check passes without one. Do not use `/` — it serves `index.html` and would report healthy even if the API were broken. |
+| **Auto-Deploy** | `Yes` | Redeploys on every push to `main` |
+| **Pre-Deploy Command** | *(blank)* | |
+| **Persistent Disk** | *(none)* | Nothing is written to disk |
+
+### Step 4 — Environment variables
+
+Set these under **Environment**. The three secrets go in the dashboard only — never commit them.
+
+| Key | Value | Required |
+|---|---|---|
+| `ANTHROPIC_API_KEY` | your `sk-ant-…` key | **Yes** (unless you use OpenAI instead) |
+| `ACCESS_CODE` | a phrase you invent, e.g. `orion-review-2026` | **Yes in production.** Without it the URL is open to anyone. |
+| `AI_PROVIDER` | `anthropic` | Yes — must name a provider you supplied a key for |
+| `PYTHONUNBUFFERED` | `1` | Yes. Python block-buffers stdout when it is a pipe, which is what Render gives it; without this the startup warnings never reach your log. |
+| `PYTHON_VERSION` | `3.12` | Yes |
+| `NODE_VERSION` | `20` | Yes — this is also what makes Node available during the build |
+| `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD` | `1` | Yes. The build runs a plain `npm install`; without this it pulls ~150 MB of browsers the server never uses. |
+| `OPENAI_API_KEY` | your `sk-…` key | Optional — adds GPT-4o to the model selector |
+
+Changing any variable triggers a redeploy.
+
+### Step 5 — Verify the first deploy
+
+The build takes 3–6 minutes. Watch the log for:
+
+```
+==> Running build command 'pip install -e .[app] && cd frontend && ...'
+==> Build successful 🎉
+==> Deploying...
+==> Your service is live 🎉
+```
+
+Then check three things:
+
+1. **No startup warnings.** A correctly configured service logs nothing at startup. If you see `WARNING: ACCESS_CODE is not set` or `WARNING: no AI provider key configured`, fix the variable and redeploy — the first means your URL is open and billing to you.
+2. **`https://<your-service>.onrender.com/api/config`** returns JSON with `"ready": true` and `"auth_required": true`. `ready: false` means no key was found; `auth_required: false` means no access code.
+3. **Open the URL.** You should get the *Access Code Required* screen, and your code should let you through to *Upload Requirements*.
+
+Run one small requirements file end to end before handing the URL out — `data/samples/sample_requirements.txt` is in the repository for exactly this.
+
+### Step 6 — Hand it out
+
+Reviewers need the URL and the access code, nothing else. They install nothing and never see a key.
+
+### Ongoing ownership
+
+**Updating the app.** Push to `main`; with Auto-Deploy on, Render rebuilds. Watch the log — a build failure leaves the previous version running, so the site stays up but stops reflecting your changes.
+
+**Rotating the access code.** Change `ACCESS_CODE` in the dashboard, wait for the redeploy, and tell the reviewers. Anyone mid-session is logged out.
+
+**Rotating the API key.** Revoke it in the provider console, create a new one, update the variable. Do it in that order if you think the key leaked.
+
+**Watching cost.** Render shows service hours; the provider console shows token spend. There is nothing in the app that caps either — set the limit on the provider side.
+
+**If a service is misbehaving** and the logs are not enough, **Manual Deploy → Clear build cache & deploy** rules out a stale cache, which is the usual cause of "it works locally but not on Render".
+
+### Transferring the existing service instead
+
+If you would rather keep the current URL than issue a new one, Render can move a service between workspaces rather than recreating it. The outgoing owner starts the transfer from the service's own **Settings** page and you accept; the URL, environment variables and deploy history come with it. (Render moves this control around between UI revisions — if it is not under Settings, search their docs for "transfer service".)
+
+Two things to handle immediately after a transfer: **rotate `ANTHROPIC_API_KEY` to your own key** (the transferred variable still holds the previous owner's, and their billing), and repoint the service at your fork under **Settings → Build & Deploy → Repository** if you took ownership of the code as well.
 
 ### What the access code does and does not do
 
@@ -100,7 +195,7 @@ It is one shared secret with per-IP lockout after 10 failed attempts. It stops c
 
 ### Session storage
 
-Sessions are held **in memory only** — nothing a reviewer uploads or generates is written to disk. A restart therefore drops server-side state, though the client can restore a session it still has open. On Render's free tier, which sleeps idle instances, expect long-running reviews to need that restore.
+Sessions are held **in memory only** — nothing a reviewer uploads or generates is written to disk. A restart therefore drops server-side state, though the client can restore a session it still has open. On the free tier, which sleeps idle instances, expect long-running reviews to need that restore.
 
 ---
 
