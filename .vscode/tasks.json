@@ -4,8 +4,8 @@
     {
       "label": "1. Setup — Install Python packages",
       "type": "shell",
-      "command": "pip install -e .[app]",
-      "options": { "cwd": "${workspaceFolder}" },
+      "command": "pip install -r requirements.txt",
+      "options": { "cwd": "${workspaceFolder}/backend" },
       "presentation": {
         "echo": true,
         "reveal": "always",

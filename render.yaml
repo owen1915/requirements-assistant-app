@@ -2,10 +2,8 @@ services:
   - type: web
     name: incose-analyzer
     runtime: python
-    # Installs the repo as a package so `shared` (the evaluator and the INCOSE
-    # rubric) resolves from backend/ without a sys.path trick.
     buildCommand: |
-      pip install -e .[app] &&
+      pip install -r backend/requirements.txt &&
       cd frontend && npm install && npx vite build
     startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
@@ -19,29 +17,17 @@ services:
       # server never uses.
       - key: PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD
         value: "1"
-      # Without this, Python block-buffers stdout when it is a pipe, which is
-      # what Render gives it. The startup checks below use print(), so an
-      # operator who forgot ACCESS_CODE would never see the warning that their
-      # URL is open and spending their credits — the buffer simply never
-      # flushes. Verified: the warnings are invisible without it.
-      - key: PYTHONUNBUFFERED
-        value: "1"
       # Which provider the app defaults to. Must be one the keys below cover.
       - key: AI_PROVIDER
         value: anthropic
       # Set these in the Render dashboard (Environment tab) — sync: false keeps
       # the secret out of the repo while still requiring it at deploy time.
-      #
-      # One operator key serves every reviewer: nobody using the app enters or
-      # sees a key. Only the provider named by AI_PROVIDER strictly needs one;
-      # supplying the other just makes it selectable in the UI, since
-      # /api/config offers only the providers a key exists for.
+      # End users never enter a key; all analysis runs on these.
       - key: ANTHROPIC_API_KEY
         sync: false
       - key: OPENAI_API_KEY
         sync: false
-      # Because analysis spends the keys above, this is the only thing stopping
-      # anyone who finds the URL from spending them. Set it in the dashboard and
-      # hand it to the reviewers along with their invite link.
+      # Shared code required to use the app. Without it the URL is open to
+      # anyone who finds it, spending the keys above. Also set in the dashboard.
       - key: ACCESS_CODE
         sync: false

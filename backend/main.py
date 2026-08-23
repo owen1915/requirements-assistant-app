@@ -12,7 +12,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from requirements_parser import parse_requirements, validate_requirements
-from shared.evaluator import analyze_all_requirements
+from ai_analyzer import analyze_all_requirements
 from feedback_storage import (
     save_analysis, save_feedback, load_analysis, load_feedback,
     save_set_analysis, load_set_analysis, save_docx, load_docx,
@@ -248,7 +248,7 @@ def get_config():
     Never exposes keys — only whether each one is configured, so the UI can
     offer the working providers and hide the rest.
     """
-    from shared.evaluator import get_provider
+    from ai_analyzer import get_provider
     available = _available_providers()
     # Default to the configured AI_PROVIDER when it is usable, else whichever
     # provider actually has a key, so the UI never opens on a dead option.
@@ -324,21 +324,6 @@ async def upload_files(
             api_key=api_key,
         )
 
-        # A requirement whose analysis failed is stored with every criterion
-        # marked satisfied, so it contributes zero violations. Without this
-        # check a run in which EVERY call failed — expired model id, revoked
-        # key, provider outage — returns "0 criteria violated" and reads as a
-        # clean bill of health. Fail loudly instead.
-        failed = [r for r in analysis['requirements'] if r.get('error')]
-        if failed and len(failed) == len(analysis['requirements']):
-            raise HTTPException(
-                status_code=502,
-                detail=(
-                    f"The AI provider rejected every request, so nothing was "
-                    f"analysed. First error: {failed[0]['error']}"
-                ),
-            )
-
         save_analysis(session_id, analysis)
 
         return {
@@ -350,17 +335,8 @@ async def upload_files(
                 sum(1 for ev in req.get('criteria_evaluations', []) if not ev.get('satisfied', True))
                 for req in analysis['requirements']
             ),
-            # Partial failures still produce a usable review, but the reviewer
-            # must know which rows are unexamined rather than clean.
-            "failed_count": len(failed),
-            "first_error": failed[0]['error'] if failed else None,
             "rag_enhanced": analysis.get('rag_enhanced', False)
         }
-    except HTTPException:
-        # The 502 above is deliberate and already carries the provider's own
-        # message; the catch-all below would rewrap it as a 500 reading
-        # "Analysis failed: 502: ..." and bury the cause.
-        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
 

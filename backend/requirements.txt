@@ -1,12 +1,13 @@
-# Dependencies live in the repo-root pyproject.toml, so nothing can drift onto
-# a different version of the same library. This file is a thin shim kept only
-# so an older instruction still works:
-#
-#     pip install -r backend/requirements.txt     # equivalent to the line below
-#     pip install -e .[app]                       # what it actually does
-#
-# RUN IT FROM THE REPOSITORY ROOT. pip resolves a relative path in a
-# requirements file against the current working directory, NOT against the
-# directory holding the file — so `-e .` below means "wherever you invoked pip",
-# and running this from inside backend/ will fail to find pyproject.toml.
--e .[app]
+fastapi==0.115.0
+uvicorn==0.30.6
+python-multipart==0.0.9
+anthropic>=0.86.0
+openai>=1.30.0
+python-docx==1.1.2
+python-dotenv==1.0.1
+
+# Ontology / SHACL support for set-level analysis. Imported behind a try/except
+# in main.py, so leaving these out does not crash the app — it silently
+# disables set analysis, which is why they must be declared explicitly.
+rdflib==7.6.0
+pyshacl==0.31.0

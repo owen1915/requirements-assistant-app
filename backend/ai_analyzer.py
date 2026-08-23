@@ -23,9 +23,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 # Load A-criteria definitions from incose_rules.json
 # ---------------------------------------------------------------------------
 
-from shared.paths import RUBRIC_DIR
-
-_CRITERIA_PATH = RUBRIC_DIR / 'incose_rules.json'
+_CRITERIA_PATH = Path(__file__).parent / 'incose_rules.json'
 
 
 def _load_criteria() -> List[Dict]:
@@ -109,22 +107,7 @@ def get_provider() -> str:
     return os.getenv("AI_PROVIDER", "anthropic").strip().lower()
 
 
-# Sampling parameters were removed on Opus 4.7+ and Sonnet 5+ — sending
-# temperature to those models is a 400. Older models keep the pinned 0.1, so
-# the shipped prototype's behaviour is unchanged.
-_NO_SAMPLING = ('claude-opus-4-7', 'claude-opus-4-8', 'claude-opus-5',
-                'claude-sonnet-5', 'claude-fable-5', 'claude-mythos-5')
-
-DEFAULT_MODEL = 'claude-sonnet-4-5'
-
-
-def resolve_model(model: str = None) -> str:
-    """Explicit argument wins, then ANTHROPIC_MODEL, then the pinned default."""
-    return (model or os.getenv('ANTHROPIC_MODEL') or DEFAULT_MODEL).strip()
-
-
-def _call_ai(prompt: str, provider: str = None, api_key: str = None,
-             model: str = None, max_tokens: int = 1200) -> str:
+def _call_ai(prompt: str, provider: str = None, api_key: str = None) -> str:
     """Route to Anthropic, OpenAI, or Ollama. Uses env vars by default."""
     provider = (provider or get_provider()).lower()
 
@@ -133,20 +116,11 @@ def _call_ai(prompt: str, provider: str = None, api_key: str = None,
         if not key:
             raise ValueError("ANTHROPIC_API_KEY is not set in .env")
         client = anthropic.Anthropic(api_key=key)
-        model_id = resolve_model(model)
-        if model_id.startswith(_NO_SAMPLING):
-            # These models think adaptively by default. This workload is
-            # structured JSON extraction, not reasoning, and every rule set
-            # already in the repo was induced without thinking — leaving it on
-            # would multiply output tokens and make new runs incomparable.
-            kwargs = {'thinking': {'type': 'disabled'}}
-        else:
-            kwargs = {'temperature': 0.1}
         response = client.messages.create(
-            model=model_id,
-            max_tokens=max_tokens,
+            model="claude-sonnet-4-5",
+            max_tokens=1200,
+            temperature=0.1,
             messages=[{"role": "user", "content": prompt}],
-            **kwargs,
         )
         return response.content[0].text.strip()
 
@@ -223,33 +197,16 @@ def analyze_requirement(requirement: Dict, context: str, provider: str = None, a
                 "suggested_replacement": suggested,
             })
 
-        # Nothing the model returned matched a criterion we know about. That is
-        # a response-shape failure, not a clean requirement — but the fill-in
-        # below would turn it into seven satisfied criteria and report it as a
-        # pass. This is the path that made ten requirements come back "0
-        # criteria violated" with no error anywhere.
-        if not present:
-            return _error_result(
-                requirement,
-                "The model returned no recognised criteria. Expected "
-                f"criterion_id values from {CRITERIA_ORDER}; got "
-                f"{[e.get('criterion_id') for e in evals] or 'an empty list'}. "
-                f"Raw response began: {result_text[:200]!r}",
-            )
-
-        # Fill in any criteria the AI skipped. Flagged, because "the model did
-        # not mention this" is not the same claim as "the model checked it and
-        # it passed", and only the second one justifies showing a green row.
+        # Fill in any criteria the AI skipped
         for cid in CRITERIA_ORDER:
             if cid not in present:
                 cleaned.append({
                     "criterion_id": cid,
                     "criterion_name": CRITERIA_NAMES.get(cid, ""),
                     "satisfied": True,
-                    "not_evaluated": True,
-                    "explanation": "Not evaluated — the model did not return this criterion.",
+                    "explanation": "Not evaluated.",
                     "affected_text": None,
-                    "suggested_replacement": None,
+                    "recommendations": None,
                 })
 
         cleaned.sort(key=lambda e: CRITERIA_ORDER.index(e["criterion_id"]))
@@ -268,12 +225,6 @@ def analyze_requirement(requirement: Dict, context: str, provider: str = None, a
 
 
 def _error_result(requirement: Dict, error_msg: str) -> Dict:
-    # Log it. A failed requirement is recorded as "every criterion satisfied"
-    # so the review UI still has a complete row to render, which means a total
-    # failure is indistinguishable from a clean pass by looking at the counts
-    # alone — the caller has to check `error`. Printing here is what makes the
-    # cause visible in the server log instead of only in the stored analysis.
-    print(f"ANALYSIS ERROR [{requirement.get('id', '?')}]: {error_msg}")
     return {
         "req_id": requirement["id"],
         "original_text": requirement["text"],
@@ -322,15 +273,8 @@ def analyze_all_requirements(
             except Exception as e:
                 result = _error_result(req, str(e))
             analyzed[i] = result
-            evs = result.get("criteria_evaluations", [])
-            n = sum(1 for ev in evs if not ev["satisfied"])
-            # Say how many criteria were actually judged. "0 criteria violated"
-            # alone reads as a pass whether the model examined seven criteria
-            # and cleared them or returned nothing usable.
-            skipped = sum(1 for ev in evs if ev.get("not_evaluated"))
-            note = f", {skipped} not evaluated" if skipped else ""
-            print(f"  [{result['req_id']}] done — {n} criteria violated"
-                  f" of {len(evs) - skipped} judged{note}")
+            n = sum(1 for ev in result.get("criteria_evaluations", []) if not ev["satisfied"])
+            print(f"  [{result['req_id']}] done — {n} criteria violated")
 
     return {
         "session_id": session_id,

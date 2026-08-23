@@ -6,17 +6,22 @@ __pycache__/
 venv/
 .venv/
 *.egg-info/
+dist/
 build/
 
-# Environment — the operator's provider keys live here locally.
+# Environment
 .env
 backend/.env
 
 # Node
 node_modules/
+frontend/node_modules/
 
-# Built frontend (Render rebuilds it during deploy)
-frontend/dist/
+# Session data (generated at runtime)
+uploads/*
+outputs/*
+!uploads/.gitkeep
+!outputs/.gitkeep
 
 # Knowledge base (generated at runtime)
 backend/knowledge_base/
@@ -28,7 +33,6 @@ frontend.log
 # OS
 .DS_Store
 Thumbs.db
-~$*
 
 # IDE
 .vscode/settings.json
