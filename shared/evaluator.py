@@ -223,16 +223,33 @@ def analyze_requirement(requirement: Dict, context: str, provider: str = None, a
                 "suggested_replacement": suggested,
             })
 
-        # Fill in any criteria the AI skipped
+        # Nothing the model returned matched a criterion we know about. That is
+        # a response-shape failure, not a clean requirement — but the fill-in
+        # below would turn it into seven satisfied criteria and report it as a
+        # pass. This is the path that made ten requirements come back "0
+        # criteria violated" with no error anywhere.
+        if not present:
+            return _error_result(
+                requirement,
+                "The model returned no recognised criteria. Expected "
+                f"criterion_id values from {CRITERIA_ORDER}; got "
+                f"{[e.get('criterion_id') for e in evals] or 'an empty list'}. "
+                f"Raw response began: {result_text[:200]!r}",
+            )
+
+        # Fill in any criteria the AI skipped. Flagged, because "the model did
+        # not mention this" is not the same claim as "the model checked it and
+        # it passed", and only the second one justifies showing a green row.
         for cid in CRITERIA_ORDER:
             if cid not in present:
                 cleaned.append({
                     "criterion_id": cid,
                     "criterion_name": CRITERIA_NAMES.get(cid, ""),
                     "satisfied": True,
-                    "explanation": "Not evaluated.",
+                    "not_evaluated": True,
+                    "explanation": "Not evaluated — the model did not return this criterion.",
                     "affected_text": None,
-                    "recommendations": None,
+                    "suggested_replacement": None,
                 })
 
         cleaned.sort(key=lambda e: CRITERIA_ORDER.index(e["criterion_id"]))
@@ -305,8 +322,15 @@ def analyze_all_requirements(
             except Exception as e:
                 result = _error_result(req, str(e))
             analyzed[i] = result
-            n = sum(1 for ev in result.get("criteria_evaluations", []) if not ev["satisfied"])
-            print(f"  [{result['req_id']}] done — {n} criteria violated")
+            evs = result.get("criteria_evaluations", [])
+            n = sum(1 for ev in evs if not ev["satisfied"])
+            # Say how many criteria were actually judged. "0 criteria violated"
+            # alone reads as a pass whether the model examined seven criteria
+            # and cleared them or returned nothing usable.
+            skipped = sum(1 for ev in evs if ev.get("not_evaluated"))
+            note = f", {skipped} not evaluated" if skipped else ""
+            print(f"  [{result['req_id']}] done — {n} criteria violated"
+                  f" of {len(evs) - skipped} judged{note}")
 
     return {
         "session_id": session_id,
