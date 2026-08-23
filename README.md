@@ -1,202 +1,188 @@
-# INCOSE Requirements Assistant — UI prototype
+# INCOSE Requirements Assistant
 
-*The research work behind this tool — the ICAIv2 rule-extraction pipeline, the n8n testbed and the reviewer-reliability scoring — lives in the separate `incose-research` repository.*
+Reviews engineering requirements against the **INCOSE Guide to Writing Requirements**, then lets one or more subject-matter experts accept, reject or rewrite each finding and export a corrected document.
 
-Automatically reviews engineering requirements against the **INCOSE Guide to Writing Requirements** (A2–A10 criteria). Upload a requirements document, get a detailed violation report, review each finding, and export a corrected Word document.
+Seven criteria are evaluated:
 
-Works with **Anthropic (Claude)** or **OpenAI (GPT-4o)**.
+| | | | |
+|---|---|---|---|
+| **A2** Necessary | **A3** Appropriate | **A4** Unambiguous | **A5** Complete |
+| **A6** Singular | **A9** Correct | **A10** Conforming | |
 
----
+> ⚠️ **Do not upload sensitive or classified material.** Requirement and context text is transmitted to a third-party AI provider (Anthropic or OpenAI) and is subject to their data-handling policies. This is a research prototype.
 
-> ⚠️ **IMPORTANT — Do not enter sensitive or classified data.** This is a prototype tool. Do not upload requirements, context files, or any other text that contains sensitive, proprietary, export-controlled, or classified information. All requirements and context text are transmitted to a third-party AI provider (Anthropic or OpenAI) for analysis and are subject to their respective data handling policies.
-
----
-
-## What You Need
-
-- An API key from Anthropic or OpenAI (instructions below)
-- Python and Node.js installed on your computer (instructions below)
-- Visual Studio Code
+The research behind the tool — the ICAIv2 rule-extraction pipeline, the n8n evaluation testbed and the reviewer-reliability scoring — lives in a separate repository, **`incose-research`**.
 
 ---
 
-## Step 1 — Install Python and Node.js (One Time Only)
+## For reviewers
 
-### Python
+**You do not install anything and you do not need an API key.** You need two things from whoever runs the deployment:
 
-1. Go to **https://www.python.org/downloads/**
-2. Click the large **"Download Python 3.x.x"** button
-3. Run the installer
-4. **Critical — on the very first screen:** check the box **"Add Python to PATH"** before clicking anything else
+1. the app's URL
+2. the **access code**
 
-   > If you miss this step the app will not work. Uninstall Python and reinstall if needed.
+Analysis runs on a single key held by the operator, so cost and provider are their concern, not yours.
 
-5. Click **Install Now**
+### Using it
 
-### Node.js
+1. **Enter the access code.** The first screen is *Access Code Required*. The code is remembered for the browser tab, so navigating and refreshing will not ask again — closing the tab will.
 
-1. Go to **https://nodejs.org/en**
-2. Click the **"Get Node.js®"** button
-3. Select the **LTS** version and download the installer for your operating system
-4. Run the installer with all default options
+2. **Upload requirements.** A `.txt` file, one requirement per line. All three of these parse:
 
----
+   ```
+   REQ-001: The system shall display GPS coordinates within 1 second.
+   1. The system shall display GPS coordinates within 1 second.
+   MR-C1.1: The system shall identify targets using EO/IR sensor data.
+   ```
 
-## Step 2 — Get an API Key
+3. **Upload context** (optional, strongly recommended). A `.txt` file describing the system. Several criteria — A2 *Necessary* and A9 *Correct* in particular — ask whether a requirement traces to a stated need, and without context the model has nothing to trace to, so it over-flags.
 
-You need one key — pick either Anthropic or OpenAI.
+   ```
+   This system is an autonomous UAS designed for surveillance and
+   reconnaissance operating at altitudes up to 40,000 feet.
+   ```
 
-### Anthropic (Claude) — Recommended
-1. Go to **https://console.anthropic.com/** and create an account
-2. Click **API Keys** in the sidebar → **Create Key**
-3. Copy the key — it starts with `sk-ant-`
-4. Add at least $5 in credits at **https://console.anthropic.com/settings/billing**
+4. **Click Upload & Analyze.** Roughly 15–60 seconds for ten requirements. If the operator configured more than one provider you will see a model selector; with one provider there is nothing to choose and no selector appears.
 
-### OpenAI (GPT-4o)
-1. Go to **https://platform.openai.com/** and create an account
-2. Go to **https://platform.openai.com/api-keys** → **Create new secret key**
-3. Copy the key — it starts with `sk-`
-4. Add at least $5 in credits at **https://platform.openai.com/account/billing**
+5. **Choose a path.** *Review Solo* to work alone, or *Set Up Multi-Reviewer* to invite others.
 
-> Keep your key private. Do not share it or paste it into any document.
+6. **Review each finding.** Every flagged requirement lists the criteria it violates. Per violation:
+   - **Accept** — take the suggested fix
+   - **Reject** — keep the original wording
+   - **Modify** — write your own correction
 
----
+   Then **Submit All Feedback**.
 
-## Step 3 — Download the Project
+7. **Export.** The *Analysis Complete* page offers **Download Report (.docx)** — the corrected document — and **Download Feedback (.json)** — your decisions, which is the file the research pipeline consumes.
 
-Go to the GitHub page for this project. Click the green **Code** button, then **Download ZIP**.
+### Multi-reviewer
 
-Unzip the downloaded file anywhere on your computer (Desktop is fine).
+From *Multi-Reviewer Setup*, add reviewers and invite them. Each gets their own review link and works independently; the **Consensus Dashboard** shows where they agreed, where they split, and lets you resolve or override each disagreement.
 
----
-
-## Step 4 — Open in Visual Studio Code
-
-If you don't have Visual Studio Code:
-1. Go to **https://code.visualstudio.com/**
-2. Click **Download for Windows** and install it
-
-Open Visual Studio Code. Go to **File → Open Folder** and select the unzipped project folder.
+Invited reviewers need the same access code. They do not need a key.
 
 ---
 
-## Step 5 — Start the App
+## For the operator — deploying
 
-In VSCode, open a terminal: **Terminal → New Terminal**
+Hosted on [Render](https://render.com) as a single web service. FastAPI serves both the API and the built React bundle, so there is no separate static site.
 
-> **Windows only — run this once before anything else:**
-> If you see an error saying "running scripts is disabled on this system", paste this into the terminal and press Enter:
-> ```
-> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-> ```
-> Then continue below.
+**Build command**
 
-First, navigate into the project folder:
-
-```
-cd .\Requirements-Assistant-main\
+```bash
+pip install -e .[app] && cd frontend && npm install && npx vite build
 ```
 
-Then run:
+**Start command**
 
+```bash
+cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
 ```
-python3 run.py
+
+> These are also in [`render.yaml`](render.yaml), but Render only applies that file automatically to Blueprint-managed services. A service created by hand uses whatever is in its dashboard, so if you created it that way, set both there and keep them in step with the file.
+
+**Environment variables** — set the secrets in the dashboard (Environment tab), never in the repo:
+
+| Variable | Required | Purpose |
+|---|---|---|
+| `ACCESS_CODE` | **yes, in production** | The shared code you hand to reviewers. Without it the URL is open to anyone who finds it, spending your credits. |
+| `ANTHROPIC_API_KEY` | one key required | Analysis runs on this. |
+| `OPENAI_API_KEY` | optional | Supplying it adds GPT-4o to the model selector; omit it and the UI offers only Claude. |
+| `AI_PROVIDER` | `anthropic` | Which provider the app opens on. Must be one you supplied a key for. |
+| `PYTHONUNBUFFERED` | `1` | Python block-buffers stdout when it is a pipe, which is what Render gives it. The startup warnings below are `print()` calls and never reach the log without this. |
+| `PYTHON_VERSION` | `3.12` | |
+| `NODE_VERSION` | `20` | |
+| `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD` | `1` | The build runs a plain `npm install` (vite is itself a dev dependency, so `--omit=dev` is not an option), which would otherwise pull ~150 MB of browsers the server never uses. |
+
+At startup the server warns if `ACCESS_CODE` is unset or if no provider key is configured. Check the Render log after the first deploy — a deployment that boots cleanly but silently serves an open, paid endpoint is the failure worth catching early.
+
+### What the access code does and does not do
+
+It is one shared secret with per-IP lockout after 10 failed attempts. It stops casual discovery of the URL. It does **not** attribute usage to individual reviewers or cap spend, so a leaked code means anyone holding it can burn credits until you rotate it. For a known reviewer group that trade is usually fine; for wider distribution, add a spend limit on the provider key.
+
+### Session storage
+
+Sessions are held **in memory only** — nothing a reviewer uploads or generates is written to disk. A restart therefore drops server-side state, though the client can restore a session it still has open. On Render's free tier, which sleeps idle instances, expect long-running reviews to need that restore.
+
+---
+
+## For developers — running locally
+
+**Prerequisites:** Python 3.10+ and Node.js 20+.
+
+```bash
+git clone https://github.com/packers12345/incose-assistant-app.git
+cd incose-assistant-app
+python run.py
 ```
 
-**The first time you run this it will:**
-1. Install all required packages automatically (takes 2–5 minutes)
-2. Create a config file called `backend/.env`
-3. Stop and ask you to add your API key to that file
-
-**Add your API key:**
-
-The file `backend/.env` will appear in the left file panel in VSCode under `backend`. Click it to open it. It looks like this:
+`run.py` installs both dependency sets on first run, creates `backend/.env` from the template, and stops to tell you to fill in a key. Add it:
 
 ```
 AI_PROVIDER=anthropic
-ANTHROPIC_API_KEY=sk-ant-YOUR-KEY-HERE
-OPENAI_API_KEY=sk-YOUR-KEY-HERE
+ANTHROPIC_API_KEY=sk-ant-...
 ```
 
-Replace the placeholder with your real key and set `AI_PROVIDER` to match:
+Then run `python run.py` again. It starts the backend on **8000**, the Vite dev server on **3001**, and opens a browser. `Ctrl+C` stops both.
+
+Leave `ACCESS_CODE` empty locally and the gate is transparent.
+
+### Layout
 
 ```
-AI_PROVIDER=anthropic
-ANTHROPIC_API_KEY=sk-ant-abc123...
+backend/     FastAPI app: analysis, feedback, consensus, document export
+frontend/    React SPA (Vite); built to frontend/dist and served by the backend
+shared/      the evaluator and the INCOSE rubric it loads
+data/samples/  example requirement and context files
 ```
 
-Press **Ctrl+S** to save. Then run the command again:
+`shared/` is deliberately narrow — `evaluator.py` plus `rubrics/incose_rules.json`. It is installed as a package (`pip install -e .[app]`) so `backend/main.py` can import it regardless of the working directory it is launched from. The research repository carries a fuller version of the same package.
 
-```
-python3 run.py
-```
+### Dependencies
 
-Your browser will open automatically at **http://localhost:3001**.
+All declared in [`pyproject.toml`](pyproject.toml), so the app and the research components cannot drift onto different library versions. `backend/requirements.txt` is a one-line shim that forwards to it, and **must be run from the repository root** — pip resolves a relative path inside a requirements file against the current working directory, not against the file's own location.
 
-> To stop the app, press **Ctrl+C** in the terminal.
+### Browser tests
 
----
+Playwright drives the real built frontend served by the backend, which is the only way to catch the browser-only failures — missing request headers, downloads, client-side routing on a hard refresh.
 
-## How to Use the App
-
-**1. Choose your AI provider**
-Click Anthropic (Claude) or OpenAI (GPT-4o). If your key is already in `backend/.env` you will see a green confirmation and do not need to enter it again.
-
-**2. Upload your requirements**
-Click **Choose File** and select a `.txt` file with one requirement per line. Supported formats:
-
-```
-REQ-001: The system shall display GPS coordinates within 1 second.
-REQ-002: The system shall alert the operator within 500 ms of a sensor failure.
-```
-```
-1. The system shall display GPS coordinates within 1 second.
-2. The system shall alert the operator within 500 ms of a sensor failure.
-```
-```
-MR-C1.1: The system shall identify and tag potential targets using EO/IR sensor data.
-MR-C1.2: The system shall transmit target coordinates within 500 ms.
+```bash
+cd frontend && npm install && npx playwright install chromium
+cd ../backend && python -m uvicorn main:app --port 8153     # separate terminal
+cd ../frontend && E2E_ACCESS_CODE=<code> npx playwright test
 ```
 
-**3. Upload context (optional but recommended)**
-A `.txt` file describing the system. Significantly improves analysis quality. Example:
-
-```
-This system is an autonomous UAS designed for surveillance and reconnaissance
-operating at altitudes up to 40,000 feet.
-```
-
-**4. Click Upload & Analyze**
-Takes 15–60 seconds depending on how many requirements you have.
-
-**5. Review results**
-Each requirement shows which A2–A10 criteria it violates. For each violation choose:
-- **Accept** — apply the suggested fix
-- **Reject** — keep the original
-- **Modify** — write your own correction
-
-**6. Export**
-Click **Submit** to download a corrected Word document (`.docx`).
-
+The full-flow test makes real model calls, so it costs a little and needs a working key in `backend/.env`.
 
 ---
 
 ## Troubleshooting
 
-**"python is not recognized"**
-Python was not added to PATH during install. Uninstall Python from Control Panel, re-download from python.org, and check "Add Python to PATH" on the first installer screen.
+**Build fails: `does not appear to be a Python project`**
+The build command ran `pip install -r backend/requirements.txt` from somewhere other than the repository root, so the `-e .` inside it resolved to the wrong directory. Use `pip install -e .[app]` as the build command.
 
-**"npm is not recognized"**
-Node.js did not install correctly. Re-download from nodejs.org and run the installer again.
+**Deploy succeeds, then the service crashes on start**
+The start command is probably still pointing at an old path. It must be `cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT`.
 
-**Browser opens but "Request failed" appears**
-The backend server did not start. Look at the VSCode terminal for error messages. Most common cause: `backend/.env` is missing or has the wrong key.
+**"A valid access code is required"**
+The code is wrong, or was rotated. After 10 failures from one IP the endpoint locks out for 15 minutes.
 
-**"No API key provided" error**
-Open `backend/.env` in VSCode and confirm your key is filled in and `AI_PROVIDER` matches the key you added (`anthropic` or `openai`).
+**Reviewers see "The analysis service is not configured"**
+No provider key is set on the server. `/api/config` reports zero available providers. Set `ANTHROPIC_API_KEY` in the Render dashboard.
 
-**"Analysis failed" for all requirements**
-Your API key account is out of credits. Log in to console.anthropic.com or platform.openai.com and add billing credits.
+**"Analysis failed" on every requirement**
+The key is valid but the account is out of credit. Check billing at console.anthropic.com or platform.openai.com.
 
-**App is slow**
-Normal — each requirement makes one AI API call. A 10-requirement file takes 15–30 seconds. A 50-requirement file may take 2–3 minutes.
+**`python is not recognized`** (local)
+Python is not on PATH. Reinstall from python.org and tick **Add Python to PATH** on the first installer screen.
+
+**`running scripts is disabled on this system`** (local, Windows)
+Run once in PowerShell, then retry:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+**Analysis is slow**
+Expected — one model call per requirement, issued in parallel. Ten requirements take 15–30 seconds; fifty may take a few minutes.
