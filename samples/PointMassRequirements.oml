@@ -1,0 +1,71 @@
+description <http://uaontologies.com/PointMass/PointMassRequirements#> as PointMassRequirements {
+	
+    uses <http://uaontologies.com/UAOS_TopLevel/UAOS_TopLevel#> as tlo
+    uses <http://uaontologies.com/UAOS_Domain/UAOS_Requirements#> as req
+    
+    instance item-33334 : req:Requirement [
+        tlo:hasName "Displace"
+        tlo:hasID "33334"
+        tlo:hasNaturalLanguageDescription "The System shall be able to move a point mass from an origin point to a fixed destination point as seen in Figure 1. Note 1: The path shown in the figure is notional; the actual path is to be determined. Note 2: Assume that a link between the system output and the point mass will be designed separately (by someone else) and will match the needs of your design. Note 3: The origin point is (X, Y, Z) = (0 mm, 0 mm, 101.6 mm) or [0”, 0”, 4”]. Note 4: The destination point is (X, Y, Z) = (71.84 mm, 0 mm, -71.84 mm) or [2.82”, 0”, -2.82”]. "
+    ]
+    instance item-33335 : req:Requirement [
+        tlo:hasName "Return"
+        tlo:hasID "33335"
+        tlo:hasNaturalLanguageDescription "The System shall be able to move the point mass from the destination point back to the origin point. "
+    ]
+    instance item-33336 : req:Requirement [
+        tlo:hasName "FR1 Accuracy"
+        tlo:hasID "33336"
+        tlo:hasNaturalLanguageDescription "The system shall execute FR1 accurately with +/- 2.5mm [0.1”] accuracy in every Cartesian direction. "
+    ]
+    instance item-33337 : req:Requirement [
+        tlo:hasName "FR2 Accuracy"
+        tlo:hasID "33337"
+        tlo:hasNaturalLanguageDescription "The system shall execute FR2 accurately with +/- 2.5mm [0.1”] accuracy in every Cartesian direction. "
+    ]
+    instance item-33338 : req:Requirement [
+        tlo:hasName "FR1 Max Time"
+        tlo:hasID "33338"
+        tlo:hasNaturalLanguageDescription "The System shall be able to execute FR1 in no more than 30 seconds. "
+    ]
+    instance item-33339 : req:Requirement [
+        tlo:hasName "FR1 Min Time"
+        tlo:hasID "33339"
+        tlo:hasNaturalLanguageDescription "The System shall be able to execute FR1 in no less than 5 seconds. "
+    ]
+    instance item-33340 : req:Requirement [
+        tlo:hasName "FR2 Max Time"
+        tlo:hasID "33340"
+        tlo:hasNaturalLanguageDescription "The System shall be able to execute FR2 in no more than 30 seconds. "
+    ]
+    instance item-33341 : req:Requirement [
+        tlo:hasName "FR2 Min Time"
+        tlo:hasID "33341"
+        tlo:hasNaturalLanguageDescription "The System shall be able to execute FR2 in no less than 5 seconds. "
+    ]
+    instance item-33342 : req:Requirement [
+        tlo:hasName "Mass"
+        tlo:hasID "33342"
+        tlo:hasNaturalLanguageDescription "The system shall be able to move a point mass of 3.6 kg perpendicularly to normal gravity (9.81 m/s2). "
+    ]
+    instance item-33343 : req:Requirement [
+        tlo:hasName "Atmosphere"
+        tlo:hasID "33343"
+        tlo:hasNaturalLanguageDescription "The System shall operate in an atmosphere comparable to that of Earth. Assume 21 degrees centigrade [70 degrees Fahrenheit], with low humidity, and pressurized to 100 kPA [750 mm Hg, 14.5 psi]. "
+    ]
+    instance item-33344 : req:Requirement [
+        tlo:hasName "Particulates"
+        tlo:hasID "33344"
+        tlo:hasNaturalLanguageDescription "The System shall not contribute any particulates (e.g. dust) to the ISS atmosphere. "
+    ]
+    instance item-33345 : req:Requirement [
+        tlo:hasName "Enclosure"
+        tlo:hasID "33345"
+        tlo:hasNaturalLanguageDescription "The System shall enclose all lubricated components to prevent lubricants from leaking into the atmosphere of the ISS. "
+    ]
+    instance item-33346 : req:Requirement [
+        tlo:hasName "Power"
+        tlo:hasID "33346"
+        tlo:hasNaturalLanguageDescription "The System shall not use more than 1.5 Watt-hours to support all operations. Note: Assume a maximum of 1 minute of operations. "
+    ]
+}

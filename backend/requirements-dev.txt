@@ -1,0 +1,7 @@
+# Test-only dependencies. Deliberately kept out of requirements.txt so the
+# Render build stays exactly as it was — the deploy installs nothing new.
+#
+#   pip install -r backend/requirements-dev.txt
+#   python -m pytest backend/tests
+
+pytest==8.3.3
