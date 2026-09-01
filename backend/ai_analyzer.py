@@ -137,6 +137,50 @@ def _call_ai(prompt: str, provider: str = None, api_key: str = None) -> str:
         )
         return response.choices[0].message.content.strip()
 
+    elif provider == "local":
+        # Any server that speaks the OpenAI protocol: Ollama's /v1 endpoint,
+        # vLLM, llama.cpp's server, or a hosted on-prem API such as VT ARC's
+        # llm-api.arc.vt.edu. Reusing the OpenAI client makes this a base_url
+        # swap rather than a third HTTP path to keep working.
+        base_url = os.getenv("LOCAL_LLM_URL", "").strip()
+        if not base_url:
+            raise ValueError("LOCAL_LLM_URL is not set in .env")
+        client = openai_lib.OpenAI(
+            # Self-hosted servers frequently accept any key, but the client
+            # refuses to send none at all.
+            api_key=api_key or os.getenv("LOCAL_LLM_API_KEY", "").strip() or "not-required",
+            base_url=base_url,
+        )
+        request = {
+            "model": os.getenv("LOCAL_LLM_MODEL", "gpt-oss-120b"),
+            # Deliberately larger than the 1200 the hosted providers use. A
+            # reasoning model spends this budget thinking before it emits the
+            # first character of its answer, and vLLM charges those tokens to
+            # max_tokens: gpt-oss-120b needs about 1900 for one requirement, and
+            # at 1200 it is cut off having returned no content at all.
+            "max_tokens": int(os.getenv("LOCAL_LLM_MAX_TOKENS", "4000")),
+            "temperature": 0.1,
+            "messages": [{"role": "user", "content": prompt}],
+        }
+        # Smaller models wrap their JSON in prose, which fails the parse and is
+        # then recorded as an unevaluated requirement. Asking for JSON directly
+        # avoids that, but not every OpenAI-compatible server implements the
+        # parameter — hence the switch.
+        if os.getenv("LOCAL_LLM_JSON_MODE", "1").strip() != "0":
+            request["response_format"] = {"type": "json_object"}
+        response = client.chat.completions.create(**request)
+        choice = response.choices[0]
+        if choice.message.content is None:
+            # Worth naming explicitly: the alternative is an AttributeError on
+            # None that surfaces as "could not evaluate" against every criterion,
+            # which the violation counter then reads as a clean requirement.
+            raise ValueError(
+                f"{request['model']} returned no content (finish_reason="
+                f"{choice.finish_reason}). If this is a reasoning model, raise "
+                "LOCAL_LLM_MAX_TOKENS — it is being cut off mid-thought."
+            )
+        return choice.message.content.strip()
+
     elif provider == "ollama":
         ollama_url = os.getenv("OLLAMA_URL", "http://localhost:11434")
         ollama_model = os.getenv("OLLAMA_MODEL", "llama3")
@@ -155,7 +199,9 @@ def _call_ai(prompt: str, provider: str = None, api_key: str = None) -> str:
         return data["response"].strip()
 
     else:
-        raise ValueError(f"Unknown AI_PROVIDER: '{provider}'. Must be anthropic, openai, or ollama.")
+        raise ValueError(
+            f"Unknown AI_PROVIDER: '{provider}'. Must be anthropic, openai, local, or ollama."
+        )
 
 
 def analyze_requirement(requirement: Dict, context: str, provider: str = None, api_key: str = None) -> Dict:
@@ -248,6 +294,20 @@ def _error_result(requirement: Dict, error_msg: str) -> Dict:
 # Parallel batch analysis
 # ---------------------------------------------------------------------------
 
+MAX_WORKERS = 10
+
+# A self-hosted model is the bottleneck in a way a hosted API is not: one GPU
+# serves requests from a single queue, so fanning out ten at once buys nothing
+# and multiplies the per-request latency. VT ARC's hosted endpoint also caps a
+# user at ten concurrent requests, which the default would sit exactly on.
+LOCAL_MAX_WORKERS = 4
+
+
+def _max_workers(provider: Optional[str], count: int) -> int:
+    limit = LOCAL_MAX_WORKERS if (provider or get_provider()) == "local" else MAX_WORKERS
+    return max(1, min(limit, count))
+
+
 def analyze_all_requirements(
     requirements: List[Dict],
     context: str,
@@ -260,7 +320,7 @@ def analyze_all_requirements(
 
     analyzed: List[Optional[Dict]] = [None] * len(requirements)
 
-    with ThreadPoolExecutor(max_workers=min(10, len(requirements))) as executor:
+    with ThreadPoolExecutor(max_workers=_max_workers(provider, len(requirements))) as executor:
         future_to_index = {
             executor.submit(analyze_requirement, req, context, provider, api_key): i
             for i, req in enumerate(requirements)

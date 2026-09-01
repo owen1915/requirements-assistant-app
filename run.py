@@ -126,6 +126,11 @@ def _ensure_env():
     elif provider == 'openai':
         m = re.search(r'^OPENAI_API_KEY\s*=\s*(.+)', content, re.MULTILINE)
         key = m.group(1).strip() if m else ''
+    elif provider == 'local':
+        # A self-hosted server is turned on by endpoint, not by key — many of
+        # them authenticate nothing at all.
+        m = re.search(r'^LOCAL_LLM_URL\s*=\s*(.+)', content, re.MULTILINE)
+        key = m.group(1).strip() if m else ''
     else:
         key = 'ollama-no-key-needed'
 
@@ -147,6 +152,12 @@ def _ensure_env():
         print("    For OpenAI (GPT-4o):")
         print("      AI_PROVIDER=openai")
         print("      OPENAI_API_KEY=sk-...")
+        print()
+        print("    For a locally hosted / self-hosted model:")
+        print("      AI_PROVIDER=local")
+        print("      LOCAL_LLM_URL=https://llm-api.arc.vt.edu/api/v1")
+        print("      LOCAL_LLM_API_KEY=sk-...      (from llm.arc.vt.edu)")
+        print("      LOCAL_LLM_MODEL=gpt-oss-120b")
         print()
         print("  Save the file, then run  python run.py  again.")
         print()
