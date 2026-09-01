@@ -156,16 +156,19 @@ export default function UploadPage() {
 
           {/* Requirements file */}
           <div className="form-group">
-            <label htmlFor="req-file">Requirements File (.txt) *</label>
+            <label htmlFor="req-file">Requirements File (.txt or .oml) *</label>
             <input
               id="req-file"
               type="file"
-              accept=".txt"
+              accept=".txt,.oml"
               onChange={(e) => setReqFile(e.target.files[0])}
               disabled={loading}
             />
             <p className="hint">
-              Format: "1. The system shall...", "REQ-001: The system shall...", "MR-C1.1: The system shall..."
+              .txt format: "1. The system shall...", "REQ-001: The system shall...", "MR-C1.1: The system shall..."
+            </p>
+            <p className="hint">
+              .oml: requirements are read from instances of a Requirement type in an OML description.
             </p>
           </div>
 

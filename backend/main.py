@@ -12,6 +12,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from requirements_parser import parse_requirements, validate_requirements
+from oml_parser import REQUIREMENT_TYPES, parse_oml_requirements
 from ai_analyzer import analyze_all_requirements
 from feedback_storage import (
     save_analysis, save_feedback, load_analysis, load_feedback,
@@ -267,6 +268,36 @@ def get_config():
     }
 
 
+def _parse_by_extension(filename: str, text: str) -> List[dict]:
+    """Parse an uploaded requirements file according to its extension.
+
+    Anything that is not .oml goes to the original line-based parser, which is
+    what every existing caller relies on — .txt uploads behave exactly as they
+    did before OML support was added.
+    """
+    if not filename.lower().endswith('.oml'):
+        return parse_requirements(text)
+
+    try:
+        requirements = parse_oml_requirements(text)
+    except ValueError as e:
+        # Raised on malformed OML (an unclosed bracket or string literal). The
+        # message names the problem, so pass it straight through.
+        raise HTTPException(status_code=400, detail=str(e))
+
+    if not requirements:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                "No requirements found in the OML file. Expected instances of a "
+                f"'{'/'.join(REQUIREMENT_TYPES)}' type carrying a natural-language "
+                "description property."
+            ),
+        )
+
+    return requirements
+
+
 @app.post("/api/upload")
 async def upload_files(
     request: Request,
@@ -306,11 +337,13 @@ async def upload_files(
         ctx_content = await context_file.read()
         context_text = ctx_content.decode('utf-8', errors='replace')
 
-    # Parse requirements
+    # Parse requirements. Both parsers return the same shape, so everything
+    # downstream — analysis, feedback, the generated document — is unaware of
+    # which format the file arrived in.
     req_text = content.decode('utf-8', errors='replace')
-    requirements = parse_requirements(req_text)
-    validation = validate_requirements(requirements)
+    requirements = _parse_by_extension(requirements_file.filename or '', req_text)
 
+    validation = validate_requirements(requirements)
     if not validation['valid']:
         raise HTTPException(status_code=400, detail=validation['error'])
 
