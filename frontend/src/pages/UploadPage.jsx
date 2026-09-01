@@ -104,7 +104,13 @@ export default function UploadPage() {
 
       setBarPct(100)
       const violated = res.data.violations_count
-      setProgress(`Done! ${violated} criteria violated across ${res.data.requirements_count} requirements.`)
+      const failed = res.data.errors_count || 0
+      setProgress(
+        `Done! ${violated} criteria violated across ${res.data.requirements_count} requirements.`
+        + (failed
+            ? ` ${failed} could not be analysed — their criteria are not results. Check the server log.`
+            : '')
+      )
       setTimeout(() => setSessionResult(res.data.session_id), 400)
     } catch (err) {
       const msg = err.response?.data?.detail || err.message || 'Upload failed'

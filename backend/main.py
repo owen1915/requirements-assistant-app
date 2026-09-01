@@ -399,6 +399,13 @@ async def upload_files(
                 sum(1 for ev in req.get('criteria_evaluations', []) if not ev.get('satisfied', True))
                 for req in analysis['requirements']
             ),
+            # A requirement whose analysis failed is recorded as satisfying every
+            # criterion, so violations_count alone cannot tell a clean run from a
+            # broken one. Report the failures so the caller can see the
+            # difference.
+            "errors_count": sum(
+                1 for req in analysis['requirements'] if req.get('error')
+            ),
             "rag_enhanced": analysis.get('rag_enhanced', False)
         }
     except Exception as e:
