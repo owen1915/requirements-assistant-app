@@ -4,6 +4,10 @@ This app reads a list of engineering requirements and checks each one against se
 
 This README explains **how to put the app online using Render**. Render is a hosting service. It takes the code from GitHub, builds it, and gives you a web address anyone can open.
 
+> 📝 **On this branch:** the app also accepts `.oml` requirement files and can run its
+> analysis on a locally hosted LLM. See **[IMPLEMENTATION_NOTES.md](IMPLEMENTATION_NOTES.md)**
+> for what changed, how it works, and how to test it.
+
 > ⚠️ **Warning:** the text people upload gets sent to Anthropic for analysis. Do not upload anything sensitive, proprietary, export-controlled, or classified.
 
 ---
