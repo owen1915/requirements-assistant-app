@@ -108,7 +108,7 @@ def get_provider() -> str:
 
 
 def _call_ai(prompt: str, provider: str = None, api_key: str = None) -> str:
-    """Route to Anthropic, OpenAI, or Ollama. Uses env vars by default."""
+    """Route to Anthropic, OpenAI, a local server, or Ollama. Uses env vars by default."""
     provider = (provider or get_provider()).lower()
 
     if provider == "anthropic":
